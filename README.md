@@ -1,25 +1,23 @@
-# AWS Certified AI Practitioner (AIF‑C01) — Study Cards & Practice Exam
+# AWS Certified AI Practitioner (AIF‑C01) — Study Cards & Practice Exam (with Modals)
 
-This is a **single‑file GitHub Pages site** that provides:
-- Study cards grouped by domain (Core, Databases & Analytics, Security & Compliance, Governance & Cost).
-- An interactive **mock exam** (multiple‑choice / multiple‑response) with instant feedback and scoring.
+This package adds **clickable Study Card chips** that open a **modal** with:
+- Full name of the AWS service/acronym
+- What it is used for
+- A short practical example
 
-> Content is aligned with the public AIF‑C01 exam guide (no proprietary material). Unofficial helper only.
+Also includes the **interactive mock exam** and the GitHub Pages configuration files.
 
-## 🚀 Quick Deploy (GitHub Pages)
-1. Create a **public** repo (e.g., `aif-c01-study-cards`).
-2. Upload **index.html**, **README.md**, **.nojekyll**, and **LICENSE** to the repository root.
-3. In **Settings → Pages**, configure:
-   - Build and deployment: **Deploy from a branch**
-   - Branch: **main**
-   - Folder: **/** (root)
-4. Your site will be served at: `https://<your-user>.github.io/aif-c01-study-cards/`
+## Files
+- `index.html` — Single‑page app with chips → modal, and the quiz.
+- `.nojekyll` — Disables Jekyll processing.
+- `LICENSE` — MIT license.
+- `404.html` — Redirects unknown paths to `/`.
 
-## 🧪 Using the Mock Exam
-- Choose the number of questions (10–50) and click **Start New Mock**.
-- For multiple‑response questions, select **all** correct options before checking.
-- Click **Check Answer** to see correctness and an explanation.
-- **Finish** to see total score and pass‑likelihood (target ≈ 70%).
+## Deploy
+1. Create a public repo (e.g., `aif-c01-study-cards`), upload all files to the repo root.
+2. Settings → Pages: Deploy from a branch → `main` / `/` (root).
+3. Open `https://<your-user>.github.io/aif-c01-study-cards/`.
 
-## ⚖️ License
-MIT — see `LICENSE`.
+## Accessibility
+- Chips are keyboard‑focusable (`tabindex="0"`) and open the modal with **Enter**.
+- Modal can be closed by clicking the overlay, the **Close** button, or pressing **Esc**.

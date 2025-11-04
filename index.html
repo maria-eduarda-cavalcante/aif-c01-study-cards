@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AWS Certified AI Practitioner (AIF‑C01) — Study Cards & Practice Exam</title>
   <meta name="description" content="Study cards and an interactive mock exam styled like the AWS AIF‑C01. Built as a single‑file GitHub Pages site."/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' ry='12' fill='%230e2a6b'/%3E%3Cpath d='M12 44h40v4H12zM20 16h24v8H20z' fill='%234ba3ff'/%3E%3C/svg%3E">
   <style>
     :root{
       --bg:#0b1220; --panel:#111a2e; --ink:#e6eefc; --muted:#9ab0d6; --accent:#4ba3ff; --ok:#27c93f; --bad:#ff4d4f; --warn:#f5a524;
       --card:#0e172a; --chip:#17213a; --border:#223155;
+      --overlay: rgba(6, 12, 24, .75);
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#060b16, #0b1220 35%, #0b1220 100%)}
@@ -26,7 +28,8 @@
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 12px 24px rgba(0,0,0,.25)}
     .card h3{margin:0 0 8px 0;font-size:16px}
     .muted{color:var(--muted)}
-    .chip{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--chip);border:1px solid var(--border);font-size:12px;margin:2px 4px 0 0}
+    .chip{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--border);font-size:12px;margin:3px 6px 0 0;cursor:pointer;user-select:none}
+    .chip:focus{outline:2px solid var(--accent)}
     details{border:1px dashed var(--border);border-radius:12px;padding:10px;margin-top:8px}
     summary{cursor:pointer}
     .quiz{margin-top:28px}
@@ -44,6 +47,17 @@
     .pill{padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:var(--chip)}
     .stat{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--chip);}
     .hidden{display:none}
+
+    /* Modal */
+    .overlay{position:fixed;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+    .modal{max-width:680px;width:100%;background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:0 22px 60px rgba(0,0,0,.45)}
+    .modal header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--border)}
+    .modal header h3{margin:0;font-size:18px}
+    .modal .body{padding:18px}
+    .tag{display:inline-block;margin:0 6px 6px 0;padding:4px 8px;border:1px solid var(--border);border-radius:999px;background:var(--chip);font-size:12px;color:var(--muted)}
+    .close{background:transparent;border:1px solid var(--border);color:var(--ink);border-radius:10px;padding:6px 10px;cursor:pointer}
+    .close:hover{border-color:var(--accent)}
+    .kbdkey{font-family:ui-monospace,Menlo,monospace;border:1px solid var(--border);border-radius:6px;padding:1px 6px;background:var(--chip)}
   </style>
 </head>
 <body>
@@ -57,9 +71,9 @@
         </div>
       </div>
       <nav class="nav">
-        <button class="btn" id="btnCards">Study Cards</button>
-        <button class="btn" id="btnQuiz">Mock Exam</button>
-        <button class="btn primary" id="btnShare">How to Publish on GitHub Pages</button>
+        <button class="btn" id="btnCards" type="button">Study Cards</button>
+        <button class="btn" id="btnQuiz" type="button">Mock Exam</button>
+        <button class="btn primary" id="btnShare" type="button">How to Publish on GitHub Pages</button>
       </nav>
     </header>
 
@@ -71,20 +85,20 @@
           <div class="muted">Compute · Storage · Networking · Security integration · Automation</div>
           <div class="spacer"></div>
           <div>
-            <span class="chip">EC2</span>
-            <span class="chip">Lambda</span>
-            <span class="chip">ECS</span>
-            <span class="chip">EKS</span>
-            <span class="chip">ELB</span>
-            <span class="chip">S3</span>
-            <span class="chip">Glacier</span>
-            <span class="chip">EBS</span>
-            <span class="chip">EFS</span>
-            <span class="chip">VPC</span>
-            <span class="chip">CloudFront</span>
-            <span class="chip">PrivateLink</span>
-            <span class="chip">IAM</span>
-            <span class="chip">KMS</span>
+            <span class="chip" data-key="EC2" tabindex="0">EC2</span>
+            <span class="chip" data-key="Lambda" tabindex="0">Lambda</span>
+            <span class="chip" data-key="ECS" tabindex="0">ECS</span>
+            <span class="chip" data-key="EKS" tabindex="0">EKS</span>
+            <span class="chip" data-key="ELB" tabindex="0">ELB</span>
+            <span class="chip" data-key="S3" tabindex="0">S3</span>
+            <span class="chip" data-key="Glacier" tabindex="0">Glacier</span>
+            <span class="chip" data-key="EBS" tabindex="0">EBS</span>
+            <span class="chip" data-key="EFS" tabindex="0">EFS</span>
+            <span class="chip" data-key="VPC" tabindex="0">VPC</span>
+            <span class="chip" data-key="CloudFront" tabindex="0">CloudFront</span>
+            <span class="chip" data-key="PrivateLink" tabindex="0">PrivateLink</span>
+            <span class="chip" data-key="IAM" tabindex="0">IAM</span>
+            <span class="chip" data-key="KMS" tabindex="0">KMS</span>
           </div>
           <details>
             <summary>Key ideas</summary>
@@ -102,19 +116,19 @@
           <div class="muted">Operational stores · ETL · BI · Vector search</div>
           <div class="spacer"></div>
           <div>
-            <span class="chip">RDS</span>
-            <span class="chip">DynamoDB</span>
-            <span class="chip">Neptune</span>
-            <span class="chip">DocumentDB</span>
-            <span class="chip">OpenSearch</span>
-            <span class="chip">Aurora</span>
-            <span class="chip">Glue</span>
-            <span class="chip">DataBrew</span>
-            <span class="chip">Lake Formation</span>
-            <span class="chip">Redshift</span>
-            <span class="chip">QuickSight</span>
-            <span class="chip">EMR</span>
-            <span class="chip">Data Exchange</span>
+            <span class="chip" data-key="RDS" tabindex="0">RDS</span>
+            <span class="chip" data-key="DynamoDB" tabindex="0">DynamoDB</span>
+            <span class="chip" data-key="Neptune" tabindex="0">Neptune</span>
+            <span class="chip" data-key="DocumentDB" tabindex="0">DocumentDB</span>
+            <span class="chip" data-key="OpenSearch" tabindex="0">OpenSearch</span>
+            <span class="chip" data-key="Aurora" tabindex="0">Aurora</span>
+            <span class="chip" data-key="Glue" tabindex="0">Glue</span>
+            <span class="chip" data-key="DataBrew" tabindex="0">DataBrew</span>
+            <span class="chip" data-key="LakeFormation" tabindex="0">Lake Formation</span>
+            <span class="chip" data-key="Redshift" tabindex="0">Redshift</span>
+            <span class="chip" data-key="QuickSight" tabindex="0">QuickSight</span>
+            <span class="chip" data-key="EMR" tabindex="0">EMR</span>
+            <span class="chip" data-key="DataExchange" tabindex="0">Data Exchange</span>
           </div>
           <details>
             <summary>Key ideas</summary>
@@ -131,14 +145,12 @@
           <div class="muted">Protect data · Access control · Audit · Compliance</div>
           <div class="spacer"></div>
           <div>
-            <span class="chip">IAM</span>
-            <span class="chip">KMS</span>
-            <span class="chip">Macie</span>
-            <span class="chip">CloudTrail</span>
-            <span class="chip">Config</span>
-            <span class="chip">Audit Manager</span>
-            <span class="chip">Artifact</span>
-            <span class="chip">Trusted Advisor</span>
+            <span class="chip" data-key="Macie" tabindex="0">Macie</span>
+            <span class="chip" data-key="CloudTrail" tabindex="0">CloudTrail</span>
+            <span class="chip" data-key="Config" tabindex="0">Config</span>
+            <span class="chip" data-key="AuditManager" tabindex="0">Audit Manager</span>
+            <span class="chip" data-key="Artifact" tabindex="0">Artifact</span>
+            <span class="chip" data-key="TrustedAdvisor" tabindex="0">Trusted Advisor</span>
           </div>
           <details>
             <summary>Key ideas</summary>
@@ -154,12 +166,12 @@
           <div class="muted">Best practices · Observability · Budgeting</div>
           <div class="spacer"></div>
           <div>
-            <span class="chip">Well‑Architected Tool</span>
-            <span class="chip">CloudWatch</span>
-            <span class="chip">Budgets</span>
-            <span class="chip">Cost Explorer</span>
-            <span class="chip">Model Monitor</span>
-            <span class="chip">Compute Optimizer</span>
+            <span class="chip" data-key="WellArchitected" tabindex="0">Well‑Architected Tool</span>
+            <span class="chip" data-key="CloudWatch" tabindex="0">CloudWatch</span>
+            <span class="chip" data-key="Budgets" tabindex="0">Budgets</span>
+            <span class="chip" data-key="CostExplorer" tabindex="0">Cost Explorer</span>
+            <span class="chip" data-key="ModelMonitor" tabindex="0">Model Monitor</span>
+            <span class="chip" data-key="ComputeOptimizer" tabindex="0">Compute Optimizer</span>
           </div>
           <details>
             <summary>Key ideas</summary>
@@ -194,13 +206,13 @@
 
       <div class="row" style="margin-top:12px;justify-content:space-between">
         <div class="row">
-          <button class="btn" id="prevBtn">◀ Prev</button>
-          <button class="btn" id="nextBtn">Next ▶</button>
+          <button class="btn" id="prevBtn" type="button">◀ Prev</button>
+          <button class="btn" id="nextBtn" type="button">Next ▶</button>
         </div>
         <div class="row">
-          <button class="btn" id="checkBtn">Check Answer</button>
-          <button class="btn" id="finishBtn">Finish</button>
-          <button class="btn primary" id="startBtn">Start New Mock</button>
+          <button class="btn" id="checkBtn" type="button">Check Answer</button>
+          <button class="btn" id="finishBtn" type="button">Finish</button>
+          <button class="btn primary" id="startBtn" type="button">Start New Mock</button>
         </div>
       </div>
 
@@ -228,8 +240,243 @@
     <div class="footer">Content aligned with the public AIF‑C01 exam guide topics (no proprietary material). This is an unofficial practice tool.</div>
   </div>
 
+  <!-- Modal (hidden by default) -->
+  <div id="overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <header>
+        <h3 id="modalTitle">Title</h3>
+        <button class="close" id="modalClose" aria-label="Close">Close (Esc)</button>
+      </header>
+      <div class="body">
+        <div id="modalTags"></div>
+        <p id="modalDesc"></p>
+        <p id="modalPurpose"></p>
+        <p id="modalExample"></p>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // --- Question bank aligned to the public exam guide topics ---
+    // --- Dataset for modal content (succinct, aligned to public AWS docs) ---
+    const DATA = {
+      EC2: { name: "Amazon EC2 (Elastic Compute Cloud)",
+        desc: "Resizable virtual servers in the cloud, including GPU instances for deep learning.",
+        purpose: "Run applications, training jobs, and inference servers with full OS control.",
+        example: "Train a PyTorch model on a g5.2xlarge GPU instance reading data from S3." },
+      Lambda: { name: "AWS Lambda",
+        desc: "Serverless compute that runs code in response to events.",
+        purpose: "Execute lightweight transformations, triggers, or inference without managing servers.",
+        example: "Process an S3 object-created event and call a model endpoint for classification." },
+      ECS: { name: "Amazon ECS",
+        desc: "Managed container orchestration for Docker workloads.",
+        purpose: "Deploy and scale containerized AI microservices and batch jobs.",
+        example: "Serve a FastAPI inference container behind an Application Load Balancer." },
+      EKS: { name: "Amazon EKS",
+        desc: "Managed Kubernetes control plane on AWS.",
+        purpose: "Run scalable AI platforms and inference services with Kubernetes APIs.",
+        example: "Deploy a Helm chart that exposes a model endpoint with HPA autoscaling." },
+      ELB: { name: "Elastic Load Balancing",
+        desc: "Distributes traffic across EC2, containers, or IPs.",
+        purpose: "Increase availability and balance requests to inference targets.",
+        example: "ALB routes /predict requests to multiple ECS tasks." },
+      S3: { name: "Amazon S3 (Simple Storage Service)",
+        desc: "Highly durable object storage often used as a data lake.",
+        purpose: "Store datasets, model artifacts, logs, and static web assets.",
+        example: "Keep training data in S3 and mount via SageMaker or SDK for training." },
+      Glacier: { name: "Amazon S3 Glacier",
+        desc: "Low-cost archival storage tiers for infrequently accessed data.",
+        purpose: "Retain old checkpoints, logs, or historical datasets at minimal cost.",
+        example: "Archive prior model versions for audit and rollback purposes." },
+      EBS: { name: "Amazon EBS (Elastic Block Store)",
+        desc: "Block storage volumes for EC2 instances.",
+        purpose: "Provide high-performance storage for training or databases.",
+        example: "Attach a Provisioned IOPS SSD volume to an EC2 training instance." },
+      EFS: { name: "Amazon EFS (Elastic File System)",
+        desc: "Serverless, scalable file system for shared access.",
+        purpose: "Share files across multiple instances or containers concurrently.",
+        example: "Multiple training workers read/write to a common dataset directory." },
+      VPC: { name: "Amazon VPC (Virtual Private Cloud)",
+        desc: "Logically isolated virtual network in AWS.",
+        purpose: "Control subnets, routing, and security for AI workloads.",
+        example: "Run private inference endpoints in isolated subnets with security groups." },
+      CloudFront: { name: "Amazon CloudFront",
+        desc: "Global Content Delivery Network (CDN).",
+        purpose: "Cache and accelerate delivery of static assets and APIs.",
+        example: "Serve a web UI and model assets to global users with low latency." },
+      PrivateLink: { name: "AWS PrivateLink",
+        desc: "Private connectivity to services without using public Internet.",
+        purpose: "Expose and consume services via VPC endpoints securely.",
+        example: "Access a Bedrock/SageMaker endpoint from a private subnet via Interface Endpoint." },
+      IAM: { name: "AWS Identity and Access Management (IAM)",
+        desc: "Manage identities (users/roles) and fine-grained permissions.",
+        purpose: "Apply least privilege and secure access to resources.",
+        example: "Create a role that grants SageMaker read-only access to a specific S3 bucket." },
+      KMS: { name: "AWS Key Management Service (KMS)",
+        desc: "Managed creation and control of encryption keys.",
+        purpose: "Protect data at rest and integrate encryption with AWS services.",
+        example: "Encrypt S3 objects and database storage using customer-managed keys." },
+
+      RDS: { name: "Amazon RDS",
+        desc: "Managed relational databases (MySQL, PostgreSQL, etc.).",
+        purpose: "Persist structured transactional data for applications.",
+        example: "Store user metadata and link to inference logs for analysis." },
+      DynamoDB: { name: "Amazon DynamoDB",
+        desc: "Managed NoSQL key‑value and document database.",
+        purpose: "Ultra‑low latency access for high‑volume AI apps.",
+        example: "Save chat session state and features for personalization." },
+      Neptune: { name: "Amazon Neptune",
+        desc: "Managed graph database for relationships.",
+        purpose: "Model knowledge graphs, recommendations, and fraud links.",
+        example: "Query related entities to enrich RAG retrieval context." },
+      DocumentDB: { name: "Amazon DocumentDB",
+        desc: "Managed JSON document database (MongoDB‑compatible).",
+        purpose: "Flexible storage for semi‑structured app data.",
+        example: "Store conversation history and message payloads as JSON." },
+      OpenSearch: { name: "Amazon OpenSearch Service",
+        desc: "Search/analytics with support for vector indices.",
+        purpose: "Full‑text and semantic retrieval for RAG pipelines.",
+        example: "Index embeddings and retrieve top‑k context for prompts." },
+      Aurora: { name: "Amazon Aurora",
+        desc: "High‑performance relational database compatible with MySQL/PostgreSQL.",
+        purpose: "OLTP workloads with read replicas and high availability.",
+        example: "Back app transactions for an AI product dashboard." },
+      Glue: { name: "AWS Glue",
+        desc: "Serverless ETL service for data preparation.",
+        purpose: "Clean, transform, and catalog data at scale.",
+        example: "Run Glue Jobs to normalize training data stored in S3." },
+      DataBrew: { name: "AWS Glue DataBrew",
+        desc: "Visual, no‑code data preparation tool.",
+        purpose: "Enable analysts to prepare datasets without writing code.",
+        example: "Apply transformations and export clean CSVs to S3." },
+      LakeFormation: { name: "AWS Lake Formation",
+        desc: "Build and secure data lakes on S3.",
+        purpose: "Centralize permissions and governance of lake data.",
+        example: "Grant table‑level access to curated datasets in the catalog." },
+      Redshift: { name: "Amazon Redshift",
+        desc: "Managed data warehouse for large‑scale analytics.",
+        purpose: "Run SQL analytics over petabyte‑scale data.",
+        example: "Aggregate model usage metrics and costs by team." },
+      QuickSight: { name: "Amazon QuickSight",
+        desc: "Serverless BI dashboards and visuals.",
+        purpose: "Share KPIs and drilldowns without managing servers.",
+        example: "Create a dashboard for accuracy, latency, and spend." },
+      EMR: { name: "Amazon EMR",
+        desc: "Managed big‑data clusters for Spark/Hadoop.",
+        purpose: "Distributed preprocessing and feature engineering.",
+        example: "Extract features from raw logs across a Spark cluster." },
+      DataExchange: { name: "AWS Data Exchange",
+        desc: "Marketplace for third‑party datasets.",
+        purpose: "Enrich models and analytics with external data.",
+        example: "Subscribe to demographic data to improve recommendations." },
+
+      Macie: { name: "Amazon Macie",
+        desc: "ML‑powered discovery of sensitive data in S3.",
+        purpose: "Classify PII and monitor data privacy risks.",
+        example: "Detect exposed PII objects and alert security teams." },
+      CloudTrail: { name: "AWS CloudTrail",
+        desc: "Records account activity and API usage.",
+        purpose: "Audit, investigate, and meet compliance requirements.",
+        example: "Trace who deployed a model and when configuration changed." },
+      Config: { name: "AWS Config",
+        desc: "Tracks resource configurations and compliance.",
+        purpose: "Detect drift and enforce rules at scale.",
+        example: "Flag any S3 bucket without default encryption enabled." },
+      AuditManager: { name: "AWS Audit Manager",
+        desc: "Automates evidence collection for audits.",
+        purpose: "Map controls to frameworks (e.g., SOC/ISO) and generate reports.",
+        example: "Collect artifacts proving encryption and access controls." },
+      Artifact: { name: "AWS Artifact",
+        desc: "On‑demand access to AWS compliance reports and agreements.",
+        purpose: "Download SOC/ISO reports and manage BAAs.",
+        example: "Provide auditors with the latest AWS SOC 2 report." },
+      TrustedAdvisor: { name: "AWS Trusted Advisor",
+        desc: "Recommendations for cost, performance, security, and limits.",
+        purpose: "Continuously improve posture and reduce waste.",
+        example: "Identify idle GPU instances and unattached volumes." },
+
+      WellArchitected: { name: "AWS Well‑Architected Tool",
+        desc: "Guided reviews against the Well‑Architected Framework.",
+        purpose: "Assess workloads across pillars and track improvements.",
+        example: "Review an ML pipeline for cost optimization and resiliency." },
+      CloudWatch: { name: "Amazon CloudWatch",
+        desc: "Metrics, logs, alarms, and dashboards.",
+        purpose: "Observe AI services and trigger automation on anomalies.",
+        example: "Alert on elevated model latency and error rates." },
+      Budgets: { name: "AWS Budgets",
+        desc: "Custom cost and usage thresholds with alerts.",
+        purpose: "Prevent overruns by notifying owners early.",
+        example: "Email/Slack when monthly spend exceeds 80% of budget." },
+      CostExplorer: { name: "AWS Cost Explorer",
+        desc: "Interactive cost analytics and trends.",
+        purpose: "Break down spend by service, tag, or account.",
+        example: "Analyze SageMaker vs EC2 costs for inference." },
+      ModelMonitor: { name: "Amazon SageMaker Model Monitor",
+        desc: "Automated monitoring for model/data quality and drift.",
+        purpose: "Detect deviations post‑deployment and trigger actions.",
+        example: "Compare live inference data against training baselines." },
+      ComputeOptimizer: { name: "AWS Compute Optimizer",
+        desc: "Rightsizing recommendations using ML.",
+        purpose: "Choose better instance types for performance/cost.",
+        example: "Downsize underutilized training nodes to reduce spend." }
+    };
+
+    // --- SPA Navigation ---
+    const $ = (sel)=>document.querySelector(sel);
+    const show = (sel)=>{ const el=$(sel); if(el) el.classList.remove('hidden'); };
+    const hide = (sel)=>{ const el=$(sel); if(el) el.classList.add('hidden'); };
+
+    function safeBtn(id, fn){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); fn(); });
+    }
+
+    safeBtn('btnQuiz', ()=>{ hide('#cardsView'); hide('#howTo'); show('#quizView'); });
+    safeBtn('btnCards', ()=>{ show('#cardsView'); hide('#quizView'); hide('#howTo'); });
+    safeBtn('btnShare', ()=>{ hide('#cardsView'); hide('#quizView'); show('#howTo'); });
+
+    // --- Modal wiring with event delegation on chips ---
+    const overlay = document.getElementById('overlay');
+    const titleEl = document.getElementById('modalTitle');
+    const tagsEl = document.getElementById('modalTags');
+    const descEl = document.getElementById('modalDesc');
+    const purposeEl = document.getElementById('modalPurpose');
+    const exampleEl = document.getElementById('modalExample');
+    const closeBtn = document.getElementById('modalClose');
+
+    function openModal(key){
+      const item = DATA[key];
+      if(!item) return;
+      titleEl.textContent = item.name;
+      tagsEl.innerHTML = `<span class="tag">Acronym: ${key}</span>`;
+      descEl.innerHTML = `<b>Description:</b> ${item.desc}`;
+      purposeEl.innerHTML = `<b>Purpose:</b> ${item.purpose}`;
+      exampleEl.innerHTML = `<b>Example:</b> ${item.example}`;
+      overlay.classList.remove('hidden');
+      closeBtn.focus();
+    }
+    function closeModal(){ overlay.classList.add('hidden'); }
+
+    document.addEventListener('click', (e)=>{
+      const chip = e.target.closest('.chip');
+      if(chip && chip.dataset.key){
+        e.preventDefault(); e.stopPropagation();
+        openModal(chip.dataset.key);
+      } else if(e.target === overlay){
+        // click on dark area closes modal
+        closeModal();
+      }
+    });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') closeModal();
+      if(e.key === 'Enter' && document.activeElement && document.activeElement.classList.contains('chip')){
+        const key = document.activeElement.dataset.key;
+        if(key) openModal(key);
+      }
+    });
+    closeBtn.addEventListener('click', closeModal);
+
+    // --- Quiz logic (unchanged) ---
     const BANK = [
       {domain:"Core",type:"single",q:"Which service provides virtual machines for training or inference?",opts:["AWS Lambda","Amazon EC2","Amazon S3","Amazon CloudFront"],ans:[1],ex:"EC2 provides resizable compute instances; Lambda is serverless."},
       {domain:"Core",type:"single",q:"Which service is object storage typically used as a data lake for ML?",opts:["Amazon EFS","Amazon EBS","Amazon S3","Amazon Redshift"],ans:[2],ex:"S3 stores datasets, artifacts, and logs for ML."},
@@ -277,41 +524,36 @@
       {domain:"Gov",type:"single",q:"Which service provides detailed spend breakdowns over time?",opts:["AWS Cost Explorer","AWS Budgets","AWS Artifact","AWS Config"],ans:[0],ex:"Cost Explorer analyzes spend trends and dimensions."}
     ];
 
-    const $ = (sel)=>document.querySelector(sel);
-    const show = (id)=>$(id).classList.remove('hidden');
-    const hide = (id)=>$(id).classList.add('hidden');
     const shuffle = (arr)=>arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);
-
+    const qroot = document.getElementById('qroot');
     let deck=[], idx=0, score=0, checked=false, selections={};
 
     function startMock(){
-      const n = parseInt($('#numQuestions').value,10);
+      const n = parseInt(document.getElementById('numQuestions').value,10);
       deck = shuffle(BANK).slice(0, Math.min(n, BANK.length));
       idx=0; score=0; selections={}; checked=false;
       updateMeta();
       renderQ();
-      hide('#final');
+      document.getElementById('final').classList.add('hidden');
     }
 
     function updateMeta(){
-      $('#prog').textContent = `${Math.min(idx+1, deck.length)} / ${deck.length}`;
-      $('#score').textContent = `Score: ${score}`;
+      document.getElementById('prog').textContent = `${Math.min(idx+1, deck.length)} / ${deck.length}`;
+      document.getElementById('score').textContent = `Score: ${score}`;
     }
 
     function renderQ(){
       const q = deck[idx];
-      const root = $('#qroot');
-      root.innerHTML = '';
-
+      qroot.innerHTML = '';
       const h = document.createElement('div');
       h.innerHTML = `<div class="row" style="justify-content:space-between">
         <div><div class="pill">Domain: ${q.domain}</div></div>
         <div class="pill">Type: ${q.type==='multi'?'Multiple‑response':'Multiple‑choice'}</div>
       </div>`;
-      root.appendChild(h);
+      qroot.appendChild(h);
 
       const p = document.createElement('p');
-      p.className='qtext'; p.textContent=q.q; root.appendChild(p);
+      p.className='qtext'; p.textContent=q.q; qroot.appendChild(p);
 
       const chosen = selections[idx] || [];
       q.opts.forEach((opt,i)=>{
@@ -333,10 +575,10 @@
         });
         const span=document.createElement('span'); span.textContent=opt;
         label.appendChild(input); label.appendChild(span);
-        root.appendChild(label);
+        qroot.appendChild(label);
       });
 
-      const ex = document.createElement('div'); ex.className='explain hidden'; ex.id='explain'; ex.textContent=q.ex; root.appendChild(ex);
+      const ex = document.createElement('div'); ex.className='explain hidden'; ex.id='explain'; ex.textContent=q.ex; qroot.appendChild(ex);
       checked=false; updateMeta();
     }
 
@@ -345,14 +587,14 @@
       const q = deck[idx];
       const chosen = new Set(selections[idx]||[]);
       const correct = new Set(q.ans);
-      let ok = chosen.size===correct.size && [...chosen].every(x=>correct.has(x));
+      const ok = chosen.size===correct.size && [...chosen].every(x=>correct.has(x));
       if(ok) score++;
       const labels = [...document.querySelectorAll('#qroot .opt')];
       labels.forEach((lab,i)=>{
         if(correct.has(i)) lab.classList.add('correct');
         if(chosen.has(i) && !correct.has(i)) lab.classList.add('wrong');
       });
-      $('#explain').classList.remove('hidden');
+      document.getElementById('explain').classList.remove('hidden');
       checked=true; updateMeta();
     }
 
@@ -362,23 +604,26 @@
     }
 
     function finish(){
-      show('#final');
+      document.getElementById('final').classList.remove('hidden');
       const pct = Math.round((score/deck.length)*100);
-      $('#finalText').innerHTML = `You scored <b>${score}</b> out of <b>${deck.length}</b> (${pct}%).\n`+
+      document.getElementById('finalText').innerHTML = `You scored <b>${score}</b> out of <b>${deck.length}</b> (${pct}%).\n`+
         (pct>=70? "Looks good for AIF‑C01 passing threshold (700/1000 ≈ 70%)." : "Keep practicing — review weak domains above.");
       window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
     }
 
-    $('#btnQuiz').addEventListener('click',()=>{ hide('#cardsView'); hide('#howTo'); show('#quizView'); });
-    $('#btnCards').addEventListener('click',()=>{ show('#cardsView'); hide('#quizView'); hide('#howTo'); });
-    $('#btnShare').addEventListener('click',()=>{ hide('#cardsView'); hide('#quizView'); show('#howTo'); });
+    // Wire quiz buttons
+    ['startBtn','checkBtn','nextBtn','prevBtn','finishBtn'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.addEventListener('click', (e)=>e.preventDefault());
+    });
+    document.getElementById('startBtn').addEventListener('click', startMock);
+    document.getElementById('checkBtn').addEventListener('click', check);
+    document.getElementById('nextBtn').addEventListener('click', ()=>move(1));
+    document.getElementById('prevBtn').addEventListener('click', ()=>move(-1));
+    document.getElementById('finishBtn').addEventListener('click', finish);
 
-    $('#startBtn').addEventListener('click', startMock);
-    $('#checkBtn').addEventListener('click', check);
-    $('#nextBtn').addEventListener('click', ()=>move(1));
-    $('#prevBtn').addEventListener('click', ()=>move(-1));
-    $('#finishBtn').addEventListener('click', finish);
-
+    // Init
     startMock();
   </script>
 </body>
