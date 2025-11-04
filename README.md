@@ -1,23 +1,13 @@
-# AWS Certified AI Practitioner (AIF‑C01) — Study Cards & Practice Exam (with Modals)
+# AIF‑C01 — Study Cards & Mock Exam (Tabs + Modal Fix)
 
-This package adds **clickable Study Card chips** that open a **modal** with:
-- Full name of the AWS service/acronym
-- What it is used for
-- A short practical example
+Correções:
+- Tabs confiáveis com `role="tab"` e `aria-selected` + `showView(view)`.
+- Chips com listeners explícitos (clique e teclado) abrindo modal.
+- Modal fecha com overlay, botão ou `Esc`.
 
-Also includes the **interactive mock exam** and the GitHub Pages configuration files.
+## Publicação
+1. Crie um repositório público e envie os arquivos para a raiz (branch `main`).
+2. **Settings → Pages** → Deploy from a branch → `main` / root.
+3. Acesse `https://<seu-usuario>.github.io/<repo>/`.
 
-## Files
-- `index.html` — Single‑page app with chips → modal, and the quiz.
-- `.nojekyll` — Disables Jekyll processing.
-- `LICENSE` — MIT license.
-- `404.html` — Redirects unknown paths to `/`.
-
-## Deploy
-1. Create a public repo (e.g., `aif-c01-study-cards`), upload all files to the repo root.
-2. Settings → Pages: Deploy from a branch → `main` / `/` (root).
-3. Open `https://<your-user>.github.io/aif-c01-study-cards/`.
-
-## Accessibility
-- Chips are keyboard‑focusable (`tabindex="0"`) and open the modal with **Enter**.
-- Modal can be closed by clicking the overlay, the **Close** button, or pressing **Esc**.
+Arquivos incluídos: `index.html`, `.nojekyll`, `404.html`, `README.md`, `LICENSE`.
