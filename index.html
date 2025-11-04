@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Certified AI Practitioner (AIF‑C01) — Study Cards & Practice Exam</title>
+  <meta name="description" content="Study cards and an interactive mock exam styled like the AWS AIF‑C01. Built as a single‑file GitHub Pages site."/>
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#111a2e; --ink:#e6eefc; --muted:#9ab0d6; --accent:#4ba3ff; --ok:#27c93f; --bad:#ff4d4f; --warn:#f5a524;
+      --card:#0e172a; --chip:#17213a; --border:#223155;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;color:var(--ink);background:linear-gradient(180deg,#060b16, #0b1220 35%, #0b1220 100%)}
+    a{color:var(--accent)}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:40px;height:40px;border-radius:10px;background:radial-gradient(circle at 30% 30%,#4ba3ff 0,#2f6fff 40%,#0e2a6b 100%);box-shadow:0 6px 18px rgba(17,106,255,.35)}
+    h1{font-size:22px;letter-spacing:.2px;margin:0}
+    .nav{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{background:var(--panel);border:1px solid var(--border);color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer}
+    .btn:hover{border-color:var(--accent)}
+    .btn.primary{background:linear-gradient(180deg,#145bff,#0f44bf);border:0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 12px 24px rgba(0,0,0,.25)}
+    .card h3{margin:0 0 8px 0;font-size:16px}
+    .muted{color:var(--muted)}
+    .chip{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--chip);border:1px solid var(--border);font-size:12px;margin:2px 4px 0 0}
+    details{border:1px dashed var(--border);border-radius:12px;padding:10px;margin-top:8px}
+    summary{cursor:pointer}
+    .quiz{margin-top:28px}
+    .qpanel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px}
+    .qtext{font-size:16px;margin:0 0 10px 0}
+    .opt{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--border);padding:10px;border-radius:12px;margin:8px 0;cursor:pointer}
+    .opt input{margin-top:2px}
+    .opt.correct{outline:2px solid var(--ok);background:rgba(39,201,63,.08)}
+    .opt.wrong{outline:2px solid var(--bad);background:rgba(255,77,79,.08)}
+    .explain{margin-top:10px;color:var(--muted)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .spacer{height:14px}
+    .footer{margin-top:24px;color:var(--muted);font-size:12px}
+    .kbd{font-family:ui-monospace,Menlo,monospace;background:#0a1224;border:1px solid #1b2b52;border-radius:6px;padding:2px 6px}
+    .pill{padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:var(--chip)}
+    .stat{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--chip);}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1>AIF‑C01 Study Cards + Mock Exam</h1>
+          <div class="muted">AWS Certified AI Practitioner — unofficial study helper based on the public exam guide.</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="btn" id="btnCards">Study Cards</button>
+        <button class="btn" id="btnQuiz">Mock Exam</button>
+        <button class="btn primary" id="btnShare">How to Publish on GitHub Pages</button>
+      </nav>
+    </header>
+
+    <!-- STUDY CARDS -->
+    <section id="cardsView">
+      <div class="grid">
+        <div class="card">
+          <h3>Core AWS Services</h3>
+          <div class="muted">Compute · Storage · Networking · Security integration · Automation</div>
+          <div class="spacer"></div>
+          <div>
+            <span class="chip">EC2</span>
+            <span class="chip">Lambda</span>
+            <span class="chip">ECS</span>
+            <span class="chip">EKS</span>
+            <span class="chip">ELB</span>
+            <span class="chip">S3</span>
+            <span class="chip">Glacier</span>
+            <span class="chip">EBS</span>
+            <span class="chip">EFS</span>
+            <span class="chip">VPC</span>
+            <span class="chip">CloudFront</span>
+            <span class="chip">PrivateLink</span>
+            <span class="chip">IAM</span>
+            <span class="chip">KMS</span>
+          </div>
+          <details>
+            <summary>Key ideas</summary>
+            <ul>
+              <li>EC2 for scalable compute (GPU families for DL); Lambda for serverless triggers.</li>
+              <li>S3 as data lake; Glacier for archive; EBS/EFS for high‑IO or shared FS.</li>
+              <li>VPC isolates workloads; CloudFront accelerates delivery; PrivateLink avoids public internet.</li>
+              <li>IAM for access control; KMS for encryption keys.</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="card">
+          <h3>Databases & Analytics</h3>
+          <div class="muted">Operational stores · ETL · BI · Vector search</div>
+          <div class="spacer"></div>
+          <div>
+            <span class="chip">RDS</span>
+            <span class="chip">DynamoDB</span>
+            <span class="chip">Neptune</span>
+            <span class="chip">DocumentDB</span>
+            <span class="chip">OpenSearch</span>
+            <span class="chip">Aurora</span>
+            <span class="chip">Glue</span>
+            <span class="chip">DataBrew</span>
+            <span class="chip">Lake Formation</span>
+            <span class="chip">Redshift</span>
+            <span class="chip">QuickSight</span>
+            <span class="chip">EMR</span>
+            <span class="chip">Data Exchange</span>
+          </div>
+          <details>
+            <summary>Key ideas</summary>
+            <ul>
+              <li>Glue/DataBrew prepare data; Lake Formation secures data lakes on S3.</li>
+              <li>Redshift for analytics; QuickSight for dashboards.</li>
+              <li>OpenSearch can store embeddings for RAG.</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="card">
+          <h3>Security, Identity & Compliance</h3>
+          <div class="muted">Protect data · Access control · Audit · Compliance</div>
+          <div class="spacer"></div>
+          <div>
+            <span class="chip">IAM</span>
+            <span class="chip">KMS</span>
+            <span class="chip">Macie</span>
+            <span class="chip">CloudTrail</span>
+            <span class="chip">Config</span>
+            <span class="chip">Audit Manager</span>
+            <span class="chip">Artifact</span>
+            <span class="chip">Trusted Advisor</span>
+          </div>
+          <details>
+            <summary>Key ideas</summary>
+            <ul>
+              <li>Shared Responsibility Model; least privilege; encryption at rest/in transit.</li>
+              <li>CloudTrail for activity logs; Config for compliance; Macie for PII in S3.</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="card">
+          <h3>Governance, Monitoring & Cost</h3>
+          <div class="muted">Best practices · Observability · Budgeting</div>
+          <div class="spacer"></div>
+          <div>
+            <span class="chip">Well‑Architected Tool</span>
+            <span class="chip">CloudWatch</span>
+            <span class="chip">Budgets</span>
+            <span class="chip">Cost Explorer</span>
+            <span class="chip">Model Monitor</span>
+            <span class="chip">Compute Optimizer</span>
+          </div>
+          <details>
+            <summary>Key ideas</summary>
+            <ul>
+              <li>CloudWatch metrics/alarms; Model Monitor for drift & data quality.</li>
+              <li>Budgets & Cost Explorer for proactive spend control.</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quizView" class="quiz hidden">
+      <div class="row" style="justify-content:space-between;margin-bottom:12px">
+        <div class="stat"><span>Questions:</span>
+          <select id="numQuestions" class="btn" style="padding:6px 10px;border-radius:10px;background:var(--chip)">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50" selected>50</option>
+          </select>
+        </div>
+        <div class="row">
+          <span class="pill" id="prog">0 / 0</span>
+          <span class="pill" id="score">Score: 0</span>
+        </div>
+      </div>
+
+      <div id="qroot" class="qpanel"></div>
+
+      <div class="row" style="margin-top:12px;justify-content:space-between">
+        <div class="row">
+          <button class="btn" id="prevBtn">◀ Prev</button>
+          <button class="btn" id="nextBtn">Next ▶</button>
+        </div>
+        <div class="row">
+          <button class="btn" id="checkBtn">Check Answer</button>
+          <button class="btn" id="finishBtn">Finish</button>
+          <button class="btn primary" id="startBtn">Start New Mock</button>
+        </div>
+      </div>
+
+      <div id="final" class="card hidden" style="margin-top:16px">
+        <h3>Results</h3>
+        <div id="finalText" class="muted"></div>
+      </div>
+    </section>
+
+    <!-- HOW TO PUBLISH -->
+    <section id="howTo" class="hidden" style="margin-top:20px">
+      <div class="card">
+        <h3>Publish to GitHub Pages (manual steps)</h3>
+        <ol>
+          <li>Create a new public repo on GitHub (e.g., <span class="kbd">aif-c01-study-cards</span>).</li>
+          <li>Add a file named <span class="kbd">index.html</span> with the contents of this page.</li>
+          <li>Commit & push to the <span class="kbd">main</span> branch.</li>
+          <li>Go to <b>Settings → Pages</b> → <b>Build and deployment</b>: Source = <b>Deploy from a branch</b>, Branch = <b>main</b>, Folder = <b>root</b>.</li>
+          <li>Wait a minute; your site will be live at <span class="kbd">https://&lt;your‑user&gt;.github.io/aif-c01-study-cards/</span>.</li>
+        </ol>
+        <p class="muted">Note: This project uses only static HTML/CSS/JS — no build step required.</p>
+      </div>
+    </section>
+
+    <div class="footer">Content aligned with the public AIF‑C01 exam guide topics (no proprietary material). This is an unofficial practice tool.</div>
+  </div>
+
+  <script>
+    // --- Light data bank strictly aligned to the public exam guide topics ---
+    // Types: single (one correct), multi (two+ correct)
+    const BANK = [
+      {domain:"Core",type:"single",q:"Which service provides virtual machines for training or inference?",opts:["AWS Lambda","Amazon EC2","Amazon S3","Amazon CloudFront"],ans:[1],ex:"EC2 provides resizable compute instances; Lambda is serverless."},
+      {domain:"Core",type:"single",q:"Which service is object storage typically used as a data lake for ML?",opts:["Amazon EFS","Amazon EBS","Amazon S3","Amazon Redshift"],ans:[2],ex:"S3 stores datasets, artifacts, and logs for ML."},
+      {domain:"Core",type:"multi",q:"Select the container orchestration services.",opts:["Amazon ECS","Amazon EKS","AWS Batch","AWS Lambda"],ans:[0,1],ex:"ECS and EKS orchestrate containers; Lambda is FaaS."},
+      {domain:"Core",type:"single",q:"Which service accelerates global delivery of static assets?",opts:["Amazon VPC","Amazon CloudFront","AWS PrivateLink","AWS Config"],ans:[1],ex:"CloudFront is the CDN."},
+      {domain:"Core",type:"single",q:"Which service provides private connectivity to AWS services without using the public Internet?",opts:["AWS PrivateLink","AWS Direct Connect","Amazon VPC","AWS Shield"],ans:[0],ex:"PrivateLink exposes services over private endpoints."},
+
+      {domain:"DBA",type:"single",q:"Which database is a fully managed NoSQL key‑value store?",opts:["Amazon RDS","Amazon DynamoDB","Amazon Neptune","Amazon DocumentDB"],ans:[1],ex:"DynamoDB is the managed NoSQL database."},
+      {domain:"DBA",type:"single",q:"Which service provides vector search useful for RAG?",opts:["Amazon OpenSearch Service","Amazon Redshift","Amazon QuickSight","AWS Lake Formation"],ans:[0],ex:"OpenSearch supports k‑NN/vector indices."},
+      {domain:"DBA",type:"multi",q:"Select services commonly used to prepare and govern data lakes on S3.",opts:["AWS Glue","AWS Glue DataBrew","AWS Lake Formation","Amazon EMR"],ans:[0,1,2],ex:"Glue (ETL), DataBrew (no‑code prep), Lake Formation (governance)."},
+      {domain:"DBA",type:"single",q:"Which service is a petabyte‑scale data warehouse for analytics?",opts:["Amazon Redshift","Amazon RDS","Amazon EMR","AWS Data Exchange"],ans:[0],ex:"Redshift is the data warehouse."},
+
+      {domain:"Sec",type:"single",q:"Which service manages encryption keys for data at rest?",opts:["AWS IAM","AWS KMS","AWS Artifact","AWS Budgets"],ans:[1],ex:"KMS creates and controls keys used by many AWS services."},
+      {domain:"Sec",type:"multi",q:"Select services that help with audit and compliance evidence.",opts:["AWS CloudTrail","AWS Audit Manager","AWS Artifact","AWS X-Ray"],ans:[0,1,2],ex:"CloudTrail logs activity, Audit Manager gathers evidence, Artifact hosts reports."},
+      {domain:"Sec",type:"single",q:"Which service discovers and classifies sensitive data in S3?",opts:["Amazon Macie","Amazon GuardDuty","AWS Security Hub","AWS WAF"],ans:[0],ex:"Macie uses ML to find PII in S3."},
+      {domain:"Sec",type:"single",q:"Which statement best describes the Shared Responsibility Model?",opts:["AWS is responsible for everything in the cloud.","Customers secure the cloud infrastructure.","AWS secures the cloud; customers secure what they build in the cloud.","Security is handled by third‑party vendors only."],ans:[2],ex:"AWS secures the infrastructure; you secure configurations, identities, and data."},
+
+      {domain:"Gov",type:"single",q:"Which service collects metrics and enables alarms/dashboards?",opts:["AWS CloudTrail","Amazon CloudWatch","AWS Config","AWS Trusted Advisor"],ans:[1],ex:"CloudWatch handles metrics, logs, alarms, and dashboards."},
+      {domain:"Gov",type:"single",q:"Which tool reviews workloads against AWS best practices?",opts:["AWS Well‑Architected Tool","AWS Budgets","AWS Audit Manager","AWS Cost Explorer"],ans:[0],ex:"Well‑Architected Tool maps to the framework pillars."},
+      {domain:"Gov",type:"multi",q:"Select services used for cost control and visibility.",opts:["AWS Budgets","AWS Cost Explorer","AWS Compute Optimizer","AWS Artifact"],ans:[0,1,2],ex:"Budgets alerts, Cost Explorer trends, Compute Optimizer rightsizing."},
+
+      // GenAI & ML foundations (within scope per guide wording)
+      {domain:"GenAI",type:"single",q:"Which service provides access to foundation models for building generative AI apps?",opts:["Amazon SageMaker","Amazon Bedrock","Amazon Comprehend","Amazon Q"],ans:[1],ex:"Bedrock provides managed access to FMs and tooling."},
+      {domain:"GenAI",type:"single",q:"Which statement is true about prompt engineering in the exam context?",opts:["It is out of scope.","It focuses on crafting inputs to guide model outputs.","It requires building custom models.","It only applies to image models."],ans:[1],ex:"Prompt engineering is in‑scope as a technique for FM applications."},
+      {domain:"GenAI",type:"multi",q:"Select services commonly associated with language, speech, or vision tasks.",opts:["Amazon Transcribe","Amazon Polly","Amazon Rekognition","AWS Proton"],ans:[0,1,2],ex:"Transcribe (speech‑to‑text), Polly (text‑to‑speech), Rekognition (image/video)."},
+
+      // Add more to reach ~50
+    ];
+
+    // Fill to ~50 by duplicating patterns with safe, guide‑aligned topics
+    const EXTRA = [
+      {domain:"Core",type:"single",q:"Which service provides a managed file system for shared access across instances?",opts:["Amazon EFS","Amazon EBS","Amazon S3","Amazon Glacier"],ans:[0],ex:"EFS is NFS‑compatible shared storage."},
+      {domain:"DBA",type:"single",q:"Which service helps you subscribe to curated third‑party datasets?",opts:["AWS Data Exchange","AWS Lake Formation","Amazon QuickSight","Amazon EMR"],ans:[0],ex:"Data Exchange provides external datasets."},
+      {domain:"Sec",type:"single",q:"Which service stores compliance reports like SOC and ISO for download?",opts:["AWS Artifact","AWS Audit Manager","AWS Config","AWS Trusted Advisor"],ans:[0],ex:"Artifact hosts AWS compliance documentation."},
+      {domain:"Gov",type:"single",q:"Which service logs API calls for governance and investigations?",opts:["AWS CloudTrail","Amazon CloudWatch","AWS Config","AWS X‑Ray"],ans:[0],ex:"CloudTrail records API and console activity."},
+      {domain:"DBA",type:"multi",q:"Select relational database options in scope.",opts:["Amazon RDS","Amazon Aurora","Amazon DynamoDB","Amazon Neptune"],ans:[0,1],ex:"RDS/Aurora are relational; DynamoDB is NoSQL; Neptune is graph."},
+      {domain:"GenAI",type:"single",q:"Which service is an AI assistant integrated with AWS?",opts:["Amazon Q","Amazon Bedrock","Amazon Kendra","Amazon Polly"],ans:[0],ex:"Amazon Q assists with business/technical tasks."},
+      {domain:"DBA",type:"single",q:"Which service provides petabyte‑scale SQL analytics?",opts:["Amazon Redshift","Amazon DynamoDB","Amazon Kendra","AWS Glue"],ans:[0],ex:"Redshift is the data warehouse."},
+      {domain:"Core",type:"single",q:"Which service balances incoming traffic across targets?",opts:["Amazon CloudFront","Elastic Load Balancing","AWS Shield","AWS Global Accelerator"],ans:[1],ex:"ELB distributes traffic across instances/containers."},
+      {domain:"Sec",type:"multi",q:"Select services that directly help detect misconfigurations or risks.",opts:["AWS Config","AWS Trusted Advisor","AWS Budgets","AWS Artifact"],ans:[0,1],ex:"Config evaluates rules; Trusted Advisor flags risks."},
+      {domain:"Gov",type:"single",q:"Which service helps set alerts when costs exceed thresholds?",opts:["AWS Budgets","AWS Cost Explorer","AWS Audit Manager","AWS Config"],ans:[0],ex:"Budgets sends notifications when you approach limits."},
+      {domain:"DBA",type:"single",q:"Which engine is best for knowledge graphs and relationships?",opts:["Amazon Neptune","Amazon DynamoDB","Amazon Redshift","Amazon RDS"],ans:[0],ex:"Neptune is a graph database."},
+      {domain:"Core",type:"single",q:"Which storage option is best for archiving old ML checkpoints at low cost?",opts:["Amazon S3 Standard","Amazon S3 Glacier","Amazon EBS","Amazon EFS"],ans:[1],ex:"Glacier is optimized for archival."},
+      {domain:"GenAI",type:"multi",q:"Select benefits of managed generative AI services per the exam guide.",opts:["Lower barrier to entry","Faster time‑to‑value","No need for data governance","Cost is irrelevant"],ans:[0,1],ex:"Guide highlights accessibility/velocity; governance and cost still matter."},
+      {domain:"Sec",type:"single",q:"Which service is used to define users, groups, roles, and policies?",opts:["AWS IAM","AWS KMS","AWS Macie","AWS Shield"],ans:[0],ex:"IAM handles identities and permissions."},
+      {domain:"DBA",type:"single",q:"Which service is a BI dashboard tool?",opts:["Amazon QuickSight","AWS Glue","AWS Lake Formation","Amazon EMR"],ans:[0],ex:"QuickSight builds dashboards and visuals."},
+      {domain:"Gov",type:"multi",q:"Select services that provide architectural or optimization recommendations.",opts:["AWS Trusted Advisor","AWS Well‑Architected Tool","AWS Artifact","AWS Budgets"],ans:[0,1],ex:"Trusted Advisor and WA Tool provide guidance; Artifact hosts reports; Budgets alerts."},
+      {domain:"Core",type:"single",q:"Which service creates isolated virtual networks for workloads?",opts:["Amazon VPC","AWS PrivateLink","Amazon CloudFront","AWS Direct Connect"],ans:[0],ex:"VPC provides logically isolated networks."},
+      {domain:"DBA",type:"single",q:"Which service provides visual, no‑code data prep?",opts:["AWS Glue DataBrew","AWS Glue (Jobs)","Amazon EMR","Amazon QuickSight"],ans:[0],ex:"DataBrew is a no‑code companion to Glue."},
+      {domain:"Sec",type:"single",q:"Which service helps classify PII and provides alerts and dashboards?",opts:["Amazon Macie","AWS Security Hub","Amazon Detective","AWS WAF"],ans:[0],ex:"Macie focuses on S3 data classification and privacy."},
+      {domain:"Gov",type:"single",q:"Which service provides detailed spend breakdowns over time?",opts:["AWS Cost Explorer","AWS Budgets","AWS Artifact","AWS Config"],ans:[0],ex:"Cost Explorer analyzes spend trends and dimensions."}
+    ];
+    while (EXTRA.length) BANK.push(EXTRA.shift());
+
+    // Utility helpers
+    const $ = (sel)=>document.querySelector(sel);
+    const show = (id)=>$(id).classList.remove('hidden');
+    const hide = (id)=>$(id).classList.add('hidden');
+    const shuffle = (arr)=>arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);
+
+    // State
+    let deck=[], idx=0, score=0, checked=false, selections={};
+
+    function startMock(){
+      const n = parseInt($('#numQuestions').value,10);
+      deck = shuffle(BANK).slice(0, Math.min(n, BANK.length));
+      idx=0; score=0; selections={}; checked=false;
+      updateMeta();
+      renderQ();
+      hide('#final');
+    }
+
+    function updateMeta(){
+      $('#prog').textContent = `${Math.min(idx+1, deck.length)} / ${deck.length}`;
+      $('#score').textContent = `Score: ${score}`;
+    }
+
+    function renderQ(){
+      const q = deck[idx];
+      const root = $('#qroot');
+      root.innerHTML = '';
+
+      const h = document.createElement('div');
+      h.innerHTML = `<div class="row" style="justify-content:space-between">
+        <div><div class="pill">Domain: ${q.domain}</div></div>
+        <div class="pill">Type: ${q.type==='multi'?'Multiple‑response':'Multiple‑choice'}</div>
+      </div>`;
+      root.appendChild(h);
+
+      const p = document.createElement('p');
+      p.className='qtext'; p.textContent=q.q; root.appendChild(p);
+
+      const chosen = selections[idx] || [];
+      q.opts.forEach((opt,i)=>{
+        const label=document.createElement('label');
+        label.className='opt';
+        const input=document.createElement('input');
+        input.type=q.type==='multi'?'checkbox':'radio';
+        input.name='opt';
+        input.value=i;
+        if(chosen.includes(i)) input.checked=true;
+        input.addEventListener('change',()=>{
+          if(q.type==='multi'){
+            const arr = new Set(selections[idx]||[]);
+            if(input.checked) arr.add(i); else arr.delete(i);
+            selections[idx] = Array.from(arr);
+          } else {
+            selections[idx] = [i];
+          }
+        });
+        const span=document.createElement('span'); span.textContent=opt;
+        label.appendChild(input); label.appendChild(span);
+        root.appendChild(label);
+      });
+
+      const ex = document.createElement('div'); ex.className='explain hidden'; ex.id='explain'; ex.textContent=q.ex; root.appendChild(ex);
+      checked=false; updateMeta();
+    }
+
+    function check(){
+      if(checked) return; // avoid double
+      const q = deck[idx];
+      const chosen = new Set(selections[idx]||[]);
+      const correct = new Set(q.ans);
+      // score update
+      let ok = chosen.size===correct.size && [...chosen].every(x=>correct.has(x));
+      if(ok) score++;
+      // paint
+      const labels = [...document.querySelectorAll('#qroot .opt')];
+      labels.forEach((lab,i)=>{
+        if(correct.has(i)) lab.classList.add('correct');
+        if(chosen.has(i) && !correct.has(i)) lab.classList.add('wrong');
+      });
+      $('#explain').classList.remove('hidden');
+      checked=true; updateMeta();
+    }
+
+    function move(delta){
+      idx = Math.min(Math.max(0, idx+delta), deck.length-1);
+      renderQ();
+    }
+
+    function finish(){
+      show('#final');
+      const pct = Math.round((score/deck.length)*100);
+      $('#finalText').innerHTML = `You scored <b>${score}</b> out of <b>${deck.length}</b> (${pct}%).\n`+
+        (pct>=70? "Looks good for AIF‑C01 passing threshold (700/1000 ≈ 70%)." : "Keep practicing — review weak domains above.");
+      window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+    }
+
+    // Nav events
+    $('#btnQuiz').addEventListener('click',()=>{ hide('#cardsView'); hide('#howTo'); show('#quizView'); });
+    $('#btnCards').addEventListener('click',()=>{ show('#cardsView'); hide('#quizView'); hide('#howTo'); });
+    $('#btnShare').addEventListener('click',()=>{ hide('#cardsView'); hide('#quizView'); show('#howTo'); });
+
+    $('#startBtn').addEventListener('click', startMock);
+    $('#checkBtn').addEventListener('click', check);
+    $('#nextBtn').addEventListener('click', ()=>move(1));
+    $('#prevBtn').addEventListener('click', ()=>move(-1));
+    $('#finishBtn').addEventListener('click', finish);
+
+    // initial state
+    startMock();
+  </script>
+</body>
+</html>
