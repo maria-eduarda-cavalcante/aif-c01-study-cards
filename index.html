@@ -219,9 +219,9 @@
           <li>Add a file named <span class="kbd">index.html</span> with the contents of this page.</li>
           <li>Commit & push to the <span class="kbd">main</span> branch.</li>
           <li>Go to <b>Settings → Pages</b> → <b>Build and deployment</b>: Source = <b>Deploy from a branch</b>, Branch = <b>main</b>, Folder = <b>root</b>.</li>
-          <li>Wait a minute; your site will be live at <span class="kbd">https://&lt;your‑user&gt;.github.io/aif-c01-study-cards/</span>.</li>
+          <li>Your site will be live at <span class="kbd">https://&lt;your‑user&gt;.github.io/aif-c01-study-cards/</span>.</li>
         </ol>
-        <p class="muted">Note: This project uses only static HTML/CSS/JS — no build step required.</p>
+        <p class="muted">This project uses only static HTML/CSS/JS — no build step required.</p>
       </div>
     </section>
 
@@ -229,8 +229,7 @@
   </div>
 
   <script>
-    // --- Light data bank strictly aligned to the public exam guide topics ---
-    // Types: single (one correct), multi (two+ correct)
+    // --- Question bank aligned to the public exam guide topics ---
     const BANK = [
       {domain:"Core",type:"single",q:"Which service provides virtual machines for training or inference?",opts:["AWS Lambda","Amazon EC2","Amazon S3","Amazon CloudFront"],ans:[1],ex:"EC2 provides resizable compute instances; Lambda is serverless."},
       {domain:"Core",type:"single",q:"Which service is object storage typically used as a data lake for ML?",opts:["Amazon EFS","Amazon EBS","Amazon S3","Amazon Redshift"],ans:[2],ex:"S3 stores datasets, artifacts, and logs for ML."},
@@ -252,16 +251,10 @@
       {domain:"Gov",type:"single",q:"Which tool reviews workloads against AWS best practices?",opts:["AWS Well‑Architected Tool","AWS Budgets","AWS Audit Manager","AWS Cost Explorer"],ans:[0],ex:"Well‑Architected Tool maps to the framework pillars."},
       {domain:"Gov",type:"multi",q:"Select services used for cost control and visibility.",opts:["AWS Budgets","AWS Cost Explorer","AWS Compute Optimizer","AWS Artifact"],ans:[0,1,2],ex:"Budgets alerts, Cost Explorer trends, Compute Optimizer rightsizing."},
 
-      // GenAI & ML foundations (within scope per guide wording)
       {domain:"GenAI",type:"single",q:"Which service provides access to foundation models for building generative AI apps?",opts:["Amazon SageMaker","Amazon Bedrock","Amazon Comprehend","Amazon Q"],ans:[1],ex:"Bedrock provides managed access to FMs and tooling."},
       {domain:"GenAI",type:"single",q:"Which statement is true about prompt engineering in the exam context?",opts:["It is out of scope.","It focuses on crafting inputs to guide model outputs.","It requires building custom models.","It only applies to image models."],ans:[1],ex:"Prompt engineering is in‑scope as a technique for FM applications."},
       {domain:"GenAI",type:"multi",q:"Select services commonly associated with language, speech, or vision tasks.",opts:["Amazon Transcribe","Amazon Polly","Amazon Rekognition","AWS Proton"],ans:[0,1,2],ex:"Transcribe (speech‑to‑text), Polly (text‑to‑speech), Rekognition (image/video)."},
 
-      // Add more to reach ~50
-    ];
-
-    // Fill to ~50 by duplicating patterns with safe, guide‑aligned topics
-    const EXTRA = [
       {domain:"Core",type:"single",q:"Which service provides a managed file system for shared access across instances?",opts:["Amazon EFS","Amazon EBS","Amazon S3","Amazon Glacier"],ans:[0],ex:"EFS is NFS‑compatible shared storage."},
       {domain:"DBA",type:"single",q:"Which service helps you subscribe to curated third‑party datasets?",opts:["AWS Data Exchange","AWS Lake Formation","Amazon QuickSight","Amazon EMR"],ans:[0],ex:"Data Exchange provides external datasets."},
       {domain:"Sec",type:"single",q:"Which service stores compliance reports like SOC and ISO for download?",opts:["AWS Artifact","AWS Audit Manager","AWS Config","AWS Trusted Advisor"],ans:[0],ex:"Artifact hosts AWS compliance documentation."},
@@ -283,15 +276,12 @@
       {domain:"Sec",type:"single",q:"Which service helps classify PII and provides alerts and dashboards?",opts:["Amazon Macie","AWS Security Hub","Amazon Detective","AWS WAF"],ans:[0],ex:"Macie focuses on S3 data classification and privacy."},
       {domain:"Gov",type:"single",q:"Which service provides detailed spend breakdowns over time?",opts:["AWS Cost Explorer","AWS Budgets","AWS Artifact","AWS Config"],ans:[0],ex:"Cost Explorer analyzes spend trends and dimensions."}
     ];
-    while (EXTRA.length) BANK.push(EXTRA.shift());
 
-    // Utility helpers
     const $ = (sel)=>document.querySelector(sel);
     const show = (id)=>$(id).classList.remove('hidden');
     const hide = (id)=>$(id).classList.add('hidden');
     const shuffle = (arr)=>arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);
 
-    // State
     let deck=[], idx=0, score=0, checked=false, selections={};
 
     function startMock(){
@@ -351,14 +341,12 @@
     }
 
     function check(){
-      if(checked) return; // avoid double
+      if(checked) return;
       const q = deck[idx];
       const chosen = new Set(selections[idx]||[]);
       const correct = new Set(q.ans);
-      // score update
       let ok = chosen.size===correct.size && [...chosen].every(x=>correct.has(x));
       if(ok) score++;
-      // paint
       const labels = [...document.querySelectorAll('#qroot .opt')];
       labels.forEach((lab,i)=>{
         if(correct.has(i)) lab.classList.add('correct');
@@ -381,7 +369,6 @@
       window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
     }
 
-    // Nav events
     $('#btnQuiz').addEventListener('click',()=>{ hide('#cardsView'); hide('#howTo'); show('#quizView'); });
     $('#btnCards').addEventListener('click',()=>{ show('#cardsView'); hide('#quizView'); hide('#howTo'); });
     $('#btnShare').addEventListener('click',()=>{ hide('#cardsView'); hide('#quizView'); show('#howTo'); });
@@ -392,7 +379,6 @@
     $('#prevBtn').addEventListener('click', ()=>move(-1));
     $('#finishBtn').addEventListener('click', finish);
 
-    // initial state
     startMock();
   </script>
 </body>
