@@ -41,7 +41,7 @@
     .stat{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--chip)}
     .hidden{display:none !important}
     .overlay{position:fixed;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999}
-    .modal{max-width:720px;width:100%;background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:0 22px 60px rgba(0,0,0,.45)}
+    .modal{max-width:720px;width:100%;max-height:90vh;background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:0 22px 60px rgba(0,0,0,.45);overflow:auto}
     .modal header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--border)}
     .modal header h3{margin:0;font-size:18px}
     .modal .body{padding:18px}
@@ -191,11 +191,11 @@
     <div class="footer">Conteúdo alinhado ao guia público do AIF-C01. Ferramenta de estudo não oficial.</div>
   </div>
 
-  <div id="overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div id="overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal" role="document">
       <header>
         <h3 id="modalTitle"></h3>
-        <button class="close" id="modalClose" aria-label="Fechar">Fechar (Esc)</button>
+        <button class="close" id="modalClose" type="button" aria-label="Fechar">Fechar (Esc)</button>
       </header>
       <div class="body">
         <div id="modalTags"></div>
@@ -250,7 +250,9 @@
     };
 
     const qroot = document.getElementById('qroot');
+    const body = document.body;
     const overlay = document.getElementById('overlay');
+    const closeBtn = document.getElementById('modalClose');
     const titleEl = document.getElementById('modalTitle');
     const tagsEl = document.getElementById('modalTags');
     const descEl = document.getElementById('modalDesc');
@@ -268,6 +270,9 @@
       }
     }
 
+    let lastFocus = null;
+    const focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
     function openModal(key){
       const it = DATA[key];
       if(!it){ console.warn('Sem DATA para', key); return; }
@@ -276,12 +281,36 @@
       descEl.innerHTML = `<b>Descrição:</b> ${it.desc}`;
       purposeEl.innerHTML = `<b>Para que serve:</b> ${it.purpose}`;
       exampleEl.innerHTML = `<b>Exemplo:</b> ${it.example}`;
+      lastFocus = document.activeElement;
+      if(!overlay) return;
       overlay.classList.remove('hidden');
-      document.getElementById('modalClose').focus();
+      overlay.removeAttribute('aria-hidden');
+      body.style.setProperty('overflow','hidden');
+      if(closeBtn) closeBtn.focus();
+    }
+    function isModalOpen(){
+      return overlay && !overlay.classList.contains('hidden');
     }
     function closeModal(){
+      if(!isModalOpen()) return;
       overlay.classList.add('hidden');
+      overlay.setAttribute('aria-hidden','true');
+      body.style.removeProperty('overflow');
       titleEl.textContent=''; tagsEl.innerHTML=''; descEl.innerHTML=''; purposeEl.innerHTML=''; exampleEl.innerHTML='';
+      if(lastFocus && typeof lastFocus.focus==='function'){ lastFocus.focus(); }
+      lastFocus = null;
+    }
+    function trapFocus(e){
+      if(e.key!=='Tab' || overlay.classList.contains('hidden')) return;
+      const focusable = Array.from(overlay.querySelectorAll(focusableSelector)).filter(el=>!el.hasAttribute('disabled'));
+      if(focusable.length===0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length-1];
+      if(e.shiftKey){
+        if(document.activeElement===first){ e.preventDefault(); last.focus(); }
+      } else {
+        if(document.activeElement===last){ e.preventDefault(); first.focus(); }
+      }
     }
 
     // Questions bank (amostra reduzida; gere ~30-40 seguindo o padrão)
@@ -414,9 +443,22 @@
         });
       });
 
-      document.getElementById('modalClose').addEventListener('click', closeModal);
-      overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
-      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+      if(closeBtn){
+        closeBtn.addEventListener('click', closeModal);
+        closeBtn.addEventListener('keydown', (e)=>{
+          if(e.key==='Enter' || e.key===' '){ e.preventDefault(); closeModal(); }
+        });
+      }
+      if(overlay){
+        overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
+        overlay.addEventListener('keydown', trapFocus);
+      }
+      document.addEventListener('keydown', (e)=>{
+        if((e.key==='Escape' || e.key==='Esc') && isModalOpen()){
+          e.preventDefault();
+          closeModal();
+        }
+      });
 
       document.getElementById('startBtn').addEventListener('click', startMock);
       document.getElementById('checkBtn').addEventListener('click', check);
