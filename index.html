@@ -22,6 +22,25 @@
     .tab{background:var(--panel);border:1px solid var(--border);color:var(--ink);padding:10px 14px;border-radius:12px;cursor:pointer}
     .tab[aria-selected="true"]{outline:2px solid var(--accent)}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .gamify{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px;align-items:stretch}
+    .gamify .panel{flex:1 1 240px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:0 10px 22px rgba(0,0,0,.22);position:relative;overflow:hidden}
+    .gamify .panel h2{margin:0 0 10px 0;font-size:16px}
+    .gamify .panel p{margin:4px 0;font-size:13px;color:var(--muted)}
+    .xp-bar{height:12px;background:rgba(75,163,255,.15);border-radius:999px;overflow:hidden;position:relative;margin-top:6px}
+    .xp-fill{height:100%;width:0;background:linear-gradient(90deg,#4ba3ff,#27c93f);border-radius:999px;transition:width .6s ease}
+    .xp-level{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px}
+    .xp-boost{position:absolute;top:10px;right:12px;font-size:12px;color:var(--accent);opacity:0;transform:translateY(-8px);transition:opacity .3s ease,transform .3s ease}
+    .xp-boost.show{opacity:1;transform:translateY(0)}
+    .badge-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:6px 10px;font-size:12px;color:var(--ink)}
+    .badge.locked{opacity:.35;filter:grayscale(1)}
+    .badge .emoji{font-size:16px}
+    .quest-status{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:8px 10px;border-radius:12px;background:rgba(75,163,255,.12);font-size:13px}
+    .quest-status strong{font-size:16px}
+    .quest-progress{width:100%;height:8px;background:rgba(255,255,255,.08);border-radius:999px;margin-top:8px;overflow:hidden}
+    .quest-fill{height:100%;background:linear-gradient(90deg,#ffb347,#ff6b6b);width:0;border-radius:999px;transition:width .5s ease}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,40px);background:rgba(17,26,46,.95);border:1px solid var(--border);color:var(--ink);padding:12px 18px;border-radius:14px;box-shadow:0 16px 32px rgba(0,0,0,.35);opacity:0;pointer-events:none;z-index:10000;transition:transform .4s ease,opacity .4s ease}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 12px 24px rgba(0,0,0,.25)}
     .card h3{margin:0 0 8px 0;font-size:16px}
     .muted{color:var(--muted)}
@@ -66,6 +85,30 @@
         <button class="tab" role="tab" id="tab-how" data-view="how" aria-controls="view-how" aria-selected="false" type="button">How to Publish</button>
       </nav>
     </header>
+
+    <section class="gamify" aria-live="polite">
+      <div class="panel" id="xpPanel">
+        <h2>Focus Journey</h2>
+        <p>Ganhe XP a cada resposta correta e suba de nível enquanto estuda.</p>
+        <div class="xp-boost" id="xpBoost">+0 XP</div>
+        <div class="xp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progresso para o próximo nível">
+          <div class="xp-fill" id="xpFill"></div>
+        </div>
+        <div class="xp-level">
+          <span id="xpLevel">Nível 1</span>
+          <span id="xpNext">0 / 0 XP</span>
+        </div>
+        <div class="xp-level" style="margin-top:8px">
+          <span>Total: <strong id="xpTotal">0 XP</strong></span>
+          <span>Streak: <strong id="xpStreak">0 🔥</strong></span>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Conquistas</h2>
+        <p>Desbloqueie badges mantendo foco e regularidade.</p>
+        <div class="badge-list" id="badgeList"></div>
+      </div>
+    </section>
 
     <section id="view-cards" role="tabpanel" aria-labelledby="tab-cards">
       <div class="grid">
@@ -143,6 +186,12 @@
     </section>
 
     <section id="view-quiz" class="hidden" role="tabpanel" aria-labelledby="tab-quiz">
+      <div class="card" id="questCard" style="margin-bottom:16px">
+        <h3>Focus Quest 🎮</h3>
+        <p class="muted" id="questMessage">Acerte 5 questões para ganhar um bônus de XP. Erros reiniciam a sequência.</p>
+        <div class="quest-status"><span>Progresso</span> <strong id="questCount">0 / 5</strong></div>
+        <div class="quest-progress" aria-hidden="true"><div class="quest-fill" id="questFill"></div></div>
+      </div>
       <div class="row" style="justify-content:space-between;margin-bottom:12px">
         <div class="stat"><span>Questions:</span>
           <select id="numQuestions" class="tab" style="padding:6px 10px;border-radius:10px;background:var(--chip)">
@@ -258,6 +307,225 @@
     const descEl = document.getElementById('modalDesc');
     const purposeEl = document.getElementById('modalPurpose');
     const exampleEl = document.getElementById('modalExample');
+    const xpFill = document.getElementById('xpFill');
+    const xpLevel = document.getElementById('xpLevel');
+    const xpNext = document.getElementById('xpNext');
+    const xpTotal = document.getElementById('xpTotal');
+    const xpStreak = document.getElementById('xpStreak');
+    const xpBoost = document.getElementById('xpBoost');
+    const badgeList = document.getElementById('badgeList');
+    const questCount = document.getElementById('questCount');
+    const questFill = document.getElementById('questFill');
+    const questMessage = document.getElementById('questMessage');
+
+    const STORAGE_KEY = 'aifc01_gamify_v1';
+    const HAS_STORAGE = (()=>{ try{ return typeof localStorage !== 'undefined'; } catch(err){ return false; } })();
+    const ACHIEVEMENTS = {
+      firstCorrect:{label:'Primeiro Foco',emoji:'🌟',desc:'Acerte uma questão pela primeira vez.'},
+      streak3:{label:'Ritmo Ativo',emoji:'🔥',desc:'Acerte três questões seguidas no mesmo simulado.'},
+      streakDay3:{label:'Rotina Ninja',emoji:'📅',desc:'Estude por três dias seguidos.'},
+      questHero:{label:'Quest Hero',emoji:'🎮',desc:'Complete a Focus Quest.'},
+      quizMaster:{label:'Mock Master',emoji:'🏆',desc:'Finalize um simulado com desempenho ≥80%.'}
+    };
+
+    function xpRequired(level){
+      return 80 + (level-1)*40;
+    }
+
+    function loadGamify(){
+      let stored=null;
+      if(HAS_STORAGE){
+        try{ stored = JSON.parse(localStorage.getItem(STORAGE_KEY)); }
+        catch(err){ console.warn('Falha ao carregar gamificação', err); }
+      }
+      const base={
+        level:1,
+        xpIntoLevel:0,
+        xpToNext:xpRequired(1),
+        totalXp:0,
+        streak:0,
+        lastSession:null,
+        correctStreak:0,
+        bestCorrectStreak:0,
+        achievements:{},
+        totalCorrect:0,
+        quest:{target:5,current:0,completed:false}
+      };
+      if(stored){
+        Object.assign(base, stored);
+        base.achievements = Object.assign({}, base.achievements || {});
+        base.quest = Object.assign({target:5,current:0,completed:false}, base.quest || {});
+        if(!base.xpToNext) base.xpToNext = xpRequired(base.level||1);
+      }
+      return base;
+    }
+
+    const gamify = loadGamify();
+
+    function saveGamify(){
+      if(!HAS_STORAGE) return;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(gamify));
+    }
+
+    function updateGamifyUI(){
+      if(!xpFill) return;
+      const ratio = gamify.xpToNext ? Math.min(1, gamify.xpIntoLevel / gamify.xpToNext) : 0;
+      xpFill.style.width = `${Math.round(ratio*100)}%`;
+      xpFill.parentElement?.setAttribute('aria-valuenow', Math.round(ratio*100));
+      xpLevel.textContent = `Nível ${gamify.level}`;
+      xpNext.textContent = `${Math.round(gamify.xpIntoLevel)} / ${gamify.xpToNext} XP`;
+      xpTotal.textContent = `${gamify.totalXp} XP`;
+      xpStreak.textContent = `${gamify.streak} 🔥`;
+      renderBadges();
+      updateQuestUI();
+    }
+
+    let boostTimeout=null;
+    function showXpGain(amount){
+      if(!xpBoost) return;
+      xpBoost.textContent = `+${amount} XP`;
+      xpBoost.classList.add('show');
+      if(boostTimeout) clearTimeout(boostTimeout);
+      boostTimeout = setTimeout(()=>xpBoost.classList.remove('show'), 1200);
+    }
+
+    function flashMessage(text){
+      const toast=document.createElement('div');
+      toast.className='toast';
+      toast.textContent=text;
+      body.appendChild(toast);
+      requestAnimationFrame(()=>toast.classList.add('show'));
+      setTimeout(()=>{
+        toast.classList.remove('show');
+        setTimeout(()=>toast.remove(), 400);
+      }, 3200);
+    }
+
+    function unlockAchievement(key){
+      if(!ACHIEVEMENTS[key]) return;
+      if(gamify.achievements[key]) return;
+      gamify.achievements[key] = true;
+      saveGamify();
+      renderBadges();
+      flashMessage(`🏅 Conquista desbloqueada: ${ACHIEVEMENTS[key].label}!`);
+    }
+
+    function renderBadges(){
+      if(!badgeList) return;
+      badgeList.innerHTML='';
+      Object.keys(ACHIEVEMENTS).forEach(key=>{
+        const meta=ACHIEVEMENTS[key];
+        const earned=!!gamify.achievements[key];
+        const badge=document.createElement('span');
+        badge.className=`badge${earned?'':' locked'}`;
+        badge.innerHTML=`<span class="emoji">${earned?meta.emoji:'🔒'}</span><span>${meta.label}</span>`;
+        badge.title = earned ? meta.desc : `${meta.desc} (bloqueada)`;
+        badgeList.appendChild(badge);
+      });
+    }
+
+    function awardXp(amount){
+      if(!amount) return;
+      gamify.totalXp = Math.max(0, Math.round((gamify.totalXp||0) + amount));
+      gamify.xpIntoLevel = Math.max(0, (gamify.xpIntoLevel||0) + amount);
+      gamify.level = gamify.level || 1;
+      gamify.xpToNext = gamify.xpToNext || xpRequired(gamify.level);
+      let leveled=false;
+      while(gamify.xpIntoLevel >= gamify.xpToNext){
+        gamify.xpIntoLevel -= gamify.xpToNext;
+        gamify.level +=1;
+        gamify.xpToNext = xpRequired(gamify.level);
+        leveled=true;
+      }
+      if(amount>0) showXpGain(amount);
+      saveGamify();
+      updateGamifyUI();
+      if(leveled){
+        flashMessage(`🎉 Level up! Agora você é nível ${gamify.level}.`);
+      }
+    }
+
+    function dateKey(date){
+      return date.toISOString().slice(0,10);
+    }
+
+    function registerSession(){
+      const todayKey = dateKey(new Date());
+      if(gamify.lastSession === todayKey) return;
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate()-1);
+      if(gamify.lastSession === dateKey(yesterday)){
+        gamify.streak = (gamify.streak||0) + 1;
+      } else {
+        gamify.streak = 1;
+      }
+      gamify.lastSession = todayKey;
+      saveGamify();
+      updateGamifyUI();
+      if(gamify.streak >= 3){
+        unlockAchievement('streakDay3');
+      }
+    }
+
+    function resetQuest(){
+      gamify.quest = Object.assign({target:5,current:0,completed:false}, gamify.quest||{});
+      gamify.quest.current = 0;
+      gamify.quest.completed = false;
+      gamify.correctStreak = 0;
+      saveGamify();
+      updateQuestUI();
+    }
+
+    function updateQuestUI(){
+      if(!questCount || !gamify.quest) return;
+      const {target,current,completed} = gamify.quest;
+      questCount.textContent = `${Math.min(current,target)} / ${target}`;
+      const width = Math.min(100, (current/target)*100);
+      if(questFill) questFill.style.width = `${width}%`;
+      if(questMessage){
+        questMessage.textContent = completed ? 'Quest concluída! Continue praticando para manter o combo.' : 'Acerte 5 questões para ganhar um bônus de XP. Erros reiniciam a sequência.';
+      }
+    }
+
+    function updateQuest(isCorrect, statusChanged){
+      if(!gamify.quest) gamify.quest = {target:5,current:0,completed:false};
+      if(gamify.quest.completed) return;
+      if(statusChanged){
+        if(isCorrect){
+          gamify.quest.current = (gamify.quest.current||0) + 1;
+          if(gamify.quest.current >= gamify.quest.target){
+            gamify.quest.completed = true;
+            awardXp(30);
+            unlockAchievement('questHero');
+            flashMessage('🎮 Focus Quest completa! +30 XP');
+          }
+        } else {
+          gamify.quest.current = 0;
+        }
+        saveGamify();
+        updateQuestUI();
+      }
+    }
+
+    function recordCorrect(isCorrect, statusChanged){
+      if(!statusChanged) return;
+      if(isCorrect){
+        gamify.correctStreak = (gamify.correctStreak||0) + 1;
+        gamify.bestCorrectStreak = Math.max(gamify.bestCorrectStreak||0, gamify.correctStreak);
+        gamify.totalCorrect = (gamify.totalCorrect||0) + 1;
+        if(gamify.totalCorrect === 1){
+          unlockAchievement('firstCorrect');
+        }
+        if(gamify.correctStreak >= 3){
+          unlockAchievement('streak3');
+        }
+      } else {
+        gamify.correctStreak = 0;
+      }
+      saveGamify();
+    }
+
+    updateGamifyUI();
 
     function showView(view){
       const ids = {cards:'#view-cards', quiz:'#view-quiz', how:'#view-how'};
@@ -370,15 +638,20 @@
       {domain:"GenAI",type:"single",q:"Which service can orchestrate ML workflows with managed steps and triggers?",opts:["Amazon SageMaker Pipelines","AWS Step Functions","Amazon SNS","Amazon EventBridge"],ans:[0],ex:"SageMaker Pipelines orchestrates ML workflows."}
     ];
 
-    let deck=[], idx=0, score=0, checked=false, selections={};
+    let deck=[], idx=0, score=0, checked=false, selections={}, results={};
+    let finishBonusGiven=false;
 
     function startMock(){
       const n = parseInt(document.getElementById('numQuestions').value,10);
       deck = [...BANK].sort(()=>Math.random()-0.5).slice(0, Math.min(n, BANK.length));
-      idx=0; score=0; selections={}; checked=false;
+      idx=0; score=0; selections={}; results={}; checked=false; finishBonusGiven=false;
+      resetQuest();
+      registerSession();
       updateMeta(); renderQ(); document.getElementById('final').classList.add('hidden');
     }
     function updateMeta(){
+      const solved = Object.values(results||{}).filter(r=>r && r.correct).length;
+      score = solved;
       document.getElementById('prog').textContent = `${Math.min(idx+1, deck.length)} / ${deck.length}`;
       document.getElementById('score').textContent = `Score: ${score}`;
     }
@@ -408,8 +681,19 @@
     }
     function check(){
       if(checked || deck.length===0) return;
-      const q = deck[idx]; const chosen=new Set(selections[idx]||[]); const correct=new Set(q.ans);
-      if(chosen.size===correct.size && [...chosen].every(x=>correct.has(x))) score++;
+      const q = deck[idx];
+      const chosen=new Set(selections[idx]||[]);
+      const correct=new Set(q.ans);
+      const isCorrect = chosen.size===correct.size && [...chosen].every(x=>correct.has(x));
+      const prevStatus = results[idx]?.correct;
+      const statusChanged = prevStatus !== isCorrect;
+      results[idx] = {correct:isCorrect};
+      if(statusChanged && isCorrect){
+        const bonus = q.type==='multi'?12:10;
+        awardXp(bonus);
+      }
+      recordCorrect(isCorrect, statusChanged);
+      updateQuest(isCorrect, statusChanged);
       document.querySelectorAll('#qroot .opt').forEach((lab,i)=>{
         if(correct.has(i)) lab.classList.add('correct');
         if(chosen.has(i) && !correct.has(i)) lab.classList.add('wrong');
@@ -423,8 +707,17 @@
     function finish(){
       if(deck.length===0) return;
       document.getElementById('final').classList.remove('hidden');
+      const solved = Object.values(results||{}).filter(r=>r && r.correct).length;
+      score = solved;
       const pct=Math.round((score/deck.length)*100);
       document.getElementById('finalText').innerHTML = `You scored <b>${score}</b> of <b>${deck.length}</b> (${pct}%).<br>`+(pct>=70?"Looks good vs 700/1000 threshold.":"Keep practicing!");
+      if(!finishBonusGiven){
+        awardXp(20);
+        finishBonusGiven=true;
+      }
+      if(pct>=80 && deck.length>=10){
+        unlockAchievement('quizMaster');
+      }
       window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
     }
 
