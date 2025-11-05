@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AWS Certified AI Practitioner (AIF-C01) — Study Cards & Mock Exam</title>
-  <meta name="description" content="Study cards e simulado interativo (AIF-C01) em uma única página para GitHub Pages."/>
+  <meta name="description" content="Study cards and interactive mock exam (AIF-C01) on a single GitHub Pages-ready page."/>
   <style>
     :root{
       --bg:#0b1220; --panel:#111a2e; --ink:#e6eefc; --muted:#9ab0d6; --accent:#4ba3ff; --ok:#27c93f; --bad:#ff4d4f;
@@ -76,7 +76,7 @@
         <div class="logo"></div>
         <div>
           <h1>AIF-C01 Study Cards + Mock Exam</h1>
-          <div class="muted">Auxiliar de estudos (não oficial) baseado no guia público do exame.</div>
+          <div class="muted">Unofficial study aid built from the public exam guide.</div>
         </div>
       </div>
       <nav class="tabs" role="tablist">
@@ -89,13 +89,13 @@
     <section class="gamify" aria-live="polite">
       <div class="panel" id="xpPanel">
         <h2>Focus Journey</h2>
-        <p>Ganhe XP a cada resposta correta e suba de nível enquanto estuda.</p>
+        <p>Earn XP with every correct answer and level up while you study.</p>
         <div class="xp-boost" id="xpBoost">+0 XP</div>
-        <div class="xp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progresso para o próximo nível">
+        <div class="xp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progress toward the next level">
           <div class="xp-fill" id="xpFill"></div>
         </div>
         <div class="xp-level">
-          <span id="xpLevel">Nível 1</span>
+          <span id="xpLevel">Level 1</span>
           <span id="xpNext">0 / 0 XP</span>
         </div>
         <div class="xp-level" style="margin-top:8px">
@@ -104,8 +104,8 @@
         </div>
       </div>
       <div class="panel">
-        <h2>Conquistas</h2>
-        <p>Desbloqueie badges mantendo foco e regularidade.</p>
+        <h2>Achievements</h2>
+        <p>Unlock badges by staying focused and practicing consistently.</p>
         <div class="badge-list" id="badgeList"></div>
       </div>
     </section>
@@ -188,8 +188,8 @@
     <section id="view-quiz" class="hidden" role="tabpanel" aria-labelledby="tab-quiz">
       <div class="card" id="questCard" style="margin-bottom:16px">
         <h3>Focus Quest 🎮</h3>
-        <p class="muted" id="questMessage">Acerte 5 questões para ganhar um bônus de XP. Erros reiniciam a sequência.</p>
-        <div class="quest-status"><span>Progresso</span> <strong id="questCount">0 / 5</strong></div>
+        <p class="muted" id="questMessage">Answer 5 questions correctly in a row to earn a bonus XP reward. Mistakes reset the chain.</p>
+        <div class="quest-status"><span>Progress</span> <strong id="questCount">0 / 5</strong></div>
         <div class="quest-progress" aria-hidden="true"><div class="quest-fill" id="questFill"></div></div>
       </div>
       <div class="row" style="justify-content:space-between;margin-bottom:12px">
@@ -229,22 +229,22 @@
       <div class="card">
         <h3>Publish to GitHub Pages (manual steps)</h3>
         <ol>
-          <li>Create a new public repo (ex.: <span class="pill">aif-c01-study-cards</span>).</li>
-          <li>Adicione <b>index.html</b>, <b>.nojekyll</b>, <b>404.html</b>, <b>README.md</b>, <b>LICENSE</b> na branch <b>main</b>.</li>
-          <li>Em <b>Settings → Pages</b>, selecione: Source = <b>Deploy from a branch</b>, Branch = <b>main</b>, Folder = <b>root</b>.</li>
-          <li>Abra: <code>https://&lt;seu-usuario&gt;.github.io/aif-c01-study-cards/</code></li>
+          <li>Create a new public repo (for example <span class="pill">aif-c01-study-cards</span>).</li>
+          <li>Add <b>index.html</b>, <b>.nojekyll</b>, <b>404.html</b>, <b>README.md</b>, and <b>LICENSE</b> to the <b>main</b> branch.</li>
+          <li>In <b>Settings → Pages</b>, choose Source = <b>Deploy from a branch</b>, Branch = <b>main</b>, Folder = <b>root</b>.</li>
+          <li>Visit: <code>https://&lt;your-user&gt;.github.io/aif-c01-study-cards/</code></li>
         </ol>
       </div>
     </section>
 
-    <div class="footer">Conteúdo alinhado ao guia público do AIF-C01. Ferramenta de estudo não oficial.</div>
+    <div class="footer">Content aligned with the public AIF-C01 guide. Unofficial study resource.</div>
   </div>
 
   <div id="overlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal" role="document">
       <header>
         <h3 id="modalTitle"></h3>
-        <button class="close" id="modalClose" type="button" aria-label="Fechar">Fechar (Esc)</button>
+        <button class="close" id="modalClose" type="button" aria-label="Close">Close (Esc)</button>
       </header>
       <div class="body">
         <div id="modalTags"></div>
@@ -257,45 +257,45 @@
 
   <script>
     const DATA = {
-      EC2:{name:"Amazon EC2",desc:"Servidores virtuais redimensionáveis.",purpose:"Hospedar apps, treino e inferência com controle do SO.",example:"Treinar PyTorch em g5.xlarge lendo dados do S3."},
-      Lambda:{name:"AWS Lambda",desc:"Compute serverless por evento.",purpose:"Triggers/transformações sem gerenciar servidor.",example:"Ao criar objeto no S3, invoca inferência."},
-      ECS:{name:"Amazon ECS",desc:"Orquestração gerenciada de contêiner.",purpose:"Implantar e escalar microsserviços de IA.",example:"Servir FastAPI de inferência atrás de ALB."},
-      EKS:{name:"Amazon EKS",desc:"Kubernetes gerenciado.",purpose:"Plataformas e serviços de IA escaláveis.",example:"Helm chart com HPA para endpoint de modelo."},
-      ELB:{name:"Elastic Load Balancing",desc:"Balanceador de tráfego.",purpose:"Alta disponibilidade e distribuição.",example:"ALB roteia /predict para múltiplas tasks."},
-      S3:{name:"Amazon S3",desc:"Armazenamento de objetos durável.",purpose:"Data lake, artefatos e logs.",example:"Dataset no S3 consumido no treino."},
-      Glacier:{name:"Amazon S3 Glacier",desc:"Arquivamento de baixo custo.",purpose:"Manter checkpoints antigos.",example:"Arquivar versões de modelo."},
-      EBS:{name:"Amazon EBS",desc:"Volumes de bloco para EC2.",purpose:"I/O alto para treino ou bancos.",example:"Attach volume PIOPS em treino."},
-      EFS:{name:"Amazon EFS",desc:"FS compartilhado elástico.",purpose:"Acesso NFS por várias instâncias.",example:"Workers lendo diretório comum."},
-      VPC:{name:"Amazon VPC",desc:"Rede virtual isolada.",purpose:"Subnets/rotas/SGs para workloads.",example:"Endpoint privado em subnets isoladas."},
-      CloudFront:{name:"Amazon CloudFront",desc:"CDN global.",purpose:"Acelera assets e APIs.",example:"UI e assets de modelo com baixa latência."},
-      PrivateLink:{name:"AWS PrivateLink",desc:"Conectividade privada.",purpose:"Acesso a serviços via endpoints.",example:"Acessar Bedrock/SageMaker por endpoint privado."},
-      IAM:{name:"AWS IAM",desc:"Identidades e permissões.",purpose:"Menor privilégio e controle de acesso.",example:"Role com acesso S3 somente leitura."},
-      KMS:{name:"AWS KMS",desc:"Chaves de criptografia gerenciadas.",purpose:"Proteger dados at rest.",example:"Criptografar S3 e bancos com CMK."},
-      RDS:{name:"Amazon RDS",desc:"Bancos relacionais gerenciados.",purpose:"Dados transacionais.",example:"Metadados de usuários + logs de inferência."},
-      DynamoDB:{name:"Amazon DynamoDB",desc:"NoSQL chave-valor.",purpose:"Baixa latência e alta escala.",example:"Estado de chat e preferências."},
-      Neptune:{name:"Amazon Neptune",desc:"Banco de grafos.",purpose:"Relações, KG, fraude.",example:"Nós/arestas para contexto em RAG."},
-      DocumentDB:{name:"Amazon DocumentDB",desc:"JSON (compatível Mongo).",purpose:"Semi-estruturado flexível.",example:"Histórico de conversas JSON."},
-      OpenSearch:{name:"Amazon OpenSearch",desc:"Busca/analytics e vetores.",purpose:"Full-text + semântica para RAG.",example:"Índice de embeddings top-k."},
-      Aurora:{name:"Amazon Aurora",desc:"Relacional compatível MySQL/PG.",purpose:"OLTP HA com réplicas.",example:"Transações de app de IA."},
-      Glue:{name:"AWS Glue",desc:"ETL serverless.",purpose:"Limpar/transformar/catalogar dados.",example:"Jobs normalizando CSVs do S3."},
-      DataBrew:{name:"AWS Glue DataBrew",desc:"Prep visual sem código.",purpose:"Analistas prepararem dados.",example:"Transformações visuais e exportar ao S3."},
-      LakeFormation:{name:"AWS Lake Formation",desc:"Governança de data lake.",purpose:"Permissões centralizadas.",example:"Acesso por tabela/catálogo."},
-      Redshift:{name:"Amazon Redshift",desc:"DW analítico em escala.",purpose:"SQL em petabytes.",example:"Métricas de uso e custo."},
-      QuickSight:{name:"Amazon QuickSight",desc:"BI serverless.",purpose:"Dashboards e KPIs.",example:"Painel de acurácia/latência/custo."},
-      EMR:{name:"Amazon EMR",desc:"Spark/Hadoop gerenciado.",purpose:"Pré-processamento distribuído.",example:"Features em cluster Spark."},
-      DataExchange:{name:"AWS Data Exchange",desc:"Dados de terceiros.",purpose:"Enriquecer modelos/analytics.",example:"Assinar dataset demográfico."},
-      Macie:{name:"Amazon Macie",desc:"Descoberta de PII em S3.",purpose:"Privacidade e alertas.",example:"Alertar objetos com PII exposta."},
-      CloudTrail:{name:"AWS CloudTrail",desc:"Logs de atividade/API.",purpose:"Auditar/investigar/compliance.",example:"Quem alterou config de modelo e quando."},
-      Config:{name:"AWS Config",desc:"Conformidade/estado de recursos.",purpose:"Detectar drift/regras.",example:"S3 sem criptografia padrão."},
-      AuditManager:{name:"AWS Audit Manager",desc:"Evidências para auditoria.",purpose:"Mapear controles a frameworks.",example:"Relatório SOC/ISO com evidências."},
-      Artifact:{name:"AWS Artifact",desc:"Relatórios de compliance.",purpose:"Baixar SOC/ISO e acordos.",example:"Fornecer SOC 2 ao auditor."},
-      TrustedAdvisor:{name:"AWS Trusted Advisor",desc:"Recomendações multi-pilar.",purpose:"Otimizar custo/segurança.",example:"Detectar GPUs ociosas."},
-      WellArchitected:{name:"Well-Architected Tool",desc:"Revisão guiada de pilares.",purpose:"Avaliar workloads e melhorias.",example:"Revisar pipeline de ML."},
-      CloudWatch:{name:"Amazon CloudWatch",desc:"Métricas/logs/alarmes.",purpose:"Observabilidade e automação.",example:"Alertar latência do modelo."},
-      Budgets:{name:"AWS Budgets",desc:"Limites de custo/uso.",purpose:"Alertas proativos.",example:"Avisar 80% do orçamento."},
-      CostExplorer:{name:"AWS Cost Explorer",desc:"Análise de custos.",purpose:"Quebrar por serviço/tag.",example:"Comparar custo EC2 vs SageMaker."},
-      ModelMonitor:{name:"SageMaker Model Monitor",desc:"Qualidade/dériva pós-deploy.",purpose:"Detectar desvios.",example:"Comparar live vs baseline."},
-      ComputeOptimizer:{name:"AWS Compute Optimizer",desc:"Rightsizing via ML.",purpose:"Melhor tipo de instância.",example:"Reduzir custo de nós de treino."}
+      EC2:{name:"Amazon EC2",category:"Core AWS Services",desc:"Elastic compute service for launching and managing virtual servers.",purpose:"Choose EC2 when you need full OS control, GPUs, or custom networking for AI workloads.",example:"Train a PyTorch model on a g5.xlarge instance that streams training data from Amazon S3."},
+      Lambda:{name:"AWS Lambda",category:"Core AWS Services",desc:"Serverless compute triggered by events.",purpose:"Run lightweight transformations and inference without provisioning infrastructure.",example:"Invoke an inference function whenever a new object lands in Amazon S3."},
+      ECS:{name:"Amazon ECS",category:"Core AWS Services",desc:"Fully managed container orchestration.",purpose:"Deploy and scale AI microservices without operating your own control plane.",example:"Serve a FastAPI inference workload behind an Application Load Balancer."},
+      EKS:{name:"Amazon EKS",category:"Core AWS Services",desc:"Managed Kubernetes control plane.",purpose:"Run scalable AI platforms that rely on Kubernetes tooling and operators.",example:"Deploy a Helm chart with Horizontal Pod Autoscaling for a model endpoint."},
+      ELB:{name:"Elastic Load Balancing",category:"Core AWS Services",desc:"Managed traffic distribution across targets.",purpose:"Increase availability and balance requests across compute nodes.",example:"Route /predict traffic through an Application Load Balancer to multiple ECS tasks."},
+      S3:{name:"Amazon S3",category:"Core AWS Services",desc:"Durable object storage for any scale.",purpose:"Centralize data lakes, training artifacts, and logs for AI workloads.",example:"Host the training dataset and model checkpoints that are consumed during pipelines."},
+      Glacier:{name:"Amazon S3 Glacier",category:"Core AWS Services",desc:"Low-cost archival storage tiers in S3.",purpose:"Retain historical checkpoints and datasets that must be kept but rarely accessed.",example:"Archive older model versions while keeping them recoverable for audits."},
+      EBS:{name:"Amazon EBS",category:"Core AWS Services",desc:"Block storage volumes for EC2 instances.",purpose:"Provide predictable high I/O performance for training jobs or databases.",example:"Attach a Provisioned IOPS volume to a training instance handling large feature stores."},
+      EFS:{name:"Amazon EFS",category:"Core AWS Services",desc:"Elastic, shared file system with NFS access.",purpose:"Share datasets and outputs across multiple compute nodes with automatic scaling.",example:"Allow distributed training workers to read and write to a common directory."},
+      VPC:{name:"Amazon VPC",category:"Core AWS Services",desc:"Logically isolated virtual network.",purpose:"Control subnets, routing, and security groups for AI environments.",example:"Deploy private model endpoints inside isolated subnets with custom security rules."},
+      CloudFront:{name:"Amazon CloudFront",category:"Core AWS Services",desc:"Global content delivery network.",purpose:"Accelerate static assets and APIs with low latency worldwide.",example:"Serve a model monitoring dashboard and inference assets closer to users."},
+      PrivateLink:{name:"AWS PrivateLink",category:"Core AWS Services",desc:"Private connectivity to AWS and partner services.",purpose:"Keep traffic off the public internet when consuming managed AI services.",example:"Access Amazon Bedrock or SageMaker endpoints through interface VPC endpoints."},
+      IAM:{name:"AWS IAM",category:"Core AWS Services",desc:"Identity and access management for AWS.",purpose:"Enforce least-privilege access and securely manage permissions.",example:"Create a role that grants read-only access to training data stored in S3."},
+      KMS:{name:"AWS KMS",category:"Core AWS Services",desc:"Managed encryption keys and key policies.",purpose:"Protect data at rest and control cryptographic operations.",example:"Encrypt S3 buckets and database storage with a customer managed key."},
+      RDS:{name:"Amazon RDS",category:"Databases & Analytics",desc:"Managed relational databases.",purpose:"Store transactional or reference data without handling patching or backups.",example:"Persist user metadata and inference logs in an RDS PostgreSQL instance."},
+      DynamoDB:{name:"Amazon DynamoDB",category:"Databases & Analytics",desc:"Managed key-value and document NoSQL database.",purpose:"Deliver single-digit millisecond latency at massive scale.",example:"Persist chat session state and personalization data for an AI assistant."},
+      Neptune:{name:"Amazon Neptune",category:"Databases & Analytics",desc:"Managed graph database service.",purpose:"Model relationships, knowledge graphs, or fraud detection patterns.",example:"Store entities and relationships that enrich retrieval-augmented generation prompts."},
+      DocumentDB:{name:"Amazon DocumentDB",category:"Databases & Analytics",desc:"Managed JSON document database (MongoDB-compatible).",purpose:"Support flexible semi-structured workloads with minimal operations.",example:"Capture conversation history documents for grounding conversational AI."},
+      OpenSearch:{name:"Amazon OpenSearch",category:"Databases & Analytics",desc:"Search, analytics, and vector database platform.",purpose:"Combine full-text, log analytics, and semantic vector search for RAG solutions.",example:"Index embeddings and retrieve the top-k passages for prompt augmentation."},
+      Aurora:{name:"Amazon Aurora",category:"Databases & Analytics",desc:"MySQL- and PostgreSQL-compatible relational database.",purpose:"Provide high-throughput OLTP with automated replication and backups.",example:"Process application transactions that power AI-driven user experiences."},
+      Glue:{name:"AWS Glue",category:"Databases & Analytics",desc:"Serverless data integration and catalog service.",purpose:"Clean, transform, and catalog datasets for downstream analytics and ML.",example:"Run PySpark jobs that normalize raw CSV files from Amazon S3 into curated tables."},
+      DataBrew:{name:"AWS Glue DataBrew",category:"Databases & Analytics",desc:"Visual, no-code data preparation tool.",purpose:"Enable analysts to profile, clean, and publish datasets without writing code.",example:"Apply visual transformations and export curated features back to Amazon S3."},
+      LakeFormation:{name:"AWS Lake Formation",category:"Databases & Analytics",desc:"Centralized governance for data lakes.",purpose:"Manage fine-grained permissions and auditing across analytics services.",example:"Grant table-level access to curated features used by SageMaker."},
+      Redshift:{name:"Amazon Redshift",category:"Databases & Analytics",desc:"Petabyte-scale cloud data warehouse.",purpose:"Run complex SQL analytics and BI workloads at scale.",example:"Aggregate usage metrics and cost telemetry for AI applications."},
+      QuickSight:{name:"Amazon QuickSight",category:"Databases & Analytics",desc:"Serverless business intelligence service.",purpose:"Create interactive dashboards that track ML KPIs without managing infrastructure.",example:"Publish a performance dashboard showing accuracy, latency, and cost trends."},
+      EMR:{name:"Amazon EMR",category:"Databases & Analytics",desc:"Managed big data platform for Apache Spark, Hadoop, and more.",purpose:"Process large-scale datasets or feature engineering pipelines with open-source frameworks.",example:"Execute distributed feature generation using Spark on spot instances."},
+      DataExchange:{name:"AWS Data Exchange",category:"Databases & Analytics",desc:"Marketplace for third-party datasets and APIs.",purpose:"Augment models and analytics with curated external data sources.",example:"Subscribe to a demographic dataset that enriches model training."},
+      Macie:{name:"Amazon Macie",category:"Security, Identity & Compliance",desc:"Managed data security and privacy service for S3.",purpose:"Automatically discover and protect sensitive data such as PII.",example:"Alert when unencrypted training data containing PII is uploaded to S3."},
+      CloudTrail:{name:"AWS CloudTrail",category:"Security, Identity & Compliance",desc:"Event history of AWS account activity and API calls.",purpose:"Provide auditing, troubleshooting, and compliance evidence.",example:"Investigate who modified a production model endpoint configuration."},
+      Config:{name:"AWS Config",category:"Security, Identity & Compliance",desc:"Resource inventory and compliance monitoring.",purpose:"Continuously evaluate configurations against governance rules.",example:"Detect S3 buckets that are missing mandatory encryption settings."},
+      AuditManager:{name:"AWS Audit Manager",category:"Security, Identity & Compliance",desc:"Automates evidence collection for audits.",purpose:"Map controls to industry frameworks and track compliance posture.",example:"Generate SOC 2 and ISO 27001-ready audit reports with collected evidence."},
+      Artifact:{name:"AWS Artifact",category:"Security, Identity & Compliance",desc:"Self-service access to AWS compliance reports.",purpose:"Download certifications, agreements, and security documents on demand.",example:"Share the latest SOC 2 report with an external auditor."},
+      TrustedAdvisor:{name:"AWS Trusted Advisor",category:"Security, Identity & Compliance",desc:"Automated best-practice checks across cost, performance, and security.",purpose:"Continuously optimize cloud environments with actionable recommendations.",example:"Identify idle GPU instances that can be resized or stopped."},
+      WellArchitected:{name:"Well-Architected Tool",category:"Governance, Monitoring & Cost",desc:"Guided reviews across the AWS Well-Architected pillars.",purpose:"Assess workloads and capture improvement plans for reliability, security, and cost.",example:"Review an ML pipeline and record remediation items for each pillar."},
+      CloudWatch:{name:"Amazon CloudWatch",category:"Governance, Monitoring & Cost",desc:"Monitoring, logging, and automated responses for AWS workloads.",purpose:"Collect metrics, logs, and events to keep AI systems observable.",example:"Alert operators when model latency exceeds the agreed SLO."},
+      Budgets:{name:"AWS Budgets",category:"Governance, Monitoring & Cost",desc:"Custom cost and usage thresholds with alerts.",purpose:"Stay ahead of spending surprises across AI experiments and production.",example:"Notify finance when model hosting costs reach 80% of the monthly target."},
+      CostExplorer:{name:"AWS Cost Explorer",category:"Governance, Monitoring & Cost",desc:"Interactive cost visualization and forecasts.",purpose:"Analyze trends by service, account, or tag to manage AI investments.",example:"Compare EC2 training spend versus managed SageMaker usage."},
+      ModelMonitor:{name:"SageMaker Model Monitor",category:"Governance, Monitoring & Cost",desc:"Automated drift and quality monitoring for deployed models.",purpose:"Detect data or prediction deviations before they impact customers.",example:"Compare live inference data with a baseline to flag data drift."},
+      ComputeOptimizer:{name:"AWS Compute Optimizer",category:"Governance, Monitoring & Cost",desc:"Machine-learning powered rightsizing recommendations.",purpose:"Select optimal compute resources and reduce waste.",example:"Downsize over-provisioned training instances based on utilization insights."}
     };
 
     const qroot = document.getElementById('qroot');
@@ -321,11 +321,11 @@
     const STORAGE_KEY = 'aifc01_gamify_v1';
     const HAS_STORAGE = (()=>{ try{ return typeof localStorage !== 'undefined'; } catch(err){ return false; } })();
     const ACHIEVEMENTS = {
-      firstCorrect:{label:'Primeiro Foco',emoji:'🌟',desc:'Acerte uma questão pela primeira vez.'},
-      streak3:{label:'Ritmo Ativo',emoji:'🔥',desc:'Acerte três questões seguidas no mesmo simulado.'},
-      streakDay3:{label:'Rotina Ninja',emoji:'📅',desc:'Estude por três dias seguidos.'},
-      questHero:{label:'Quest Hero',emoji:'🎮',desc:'Complete a Focus Quest.'},
-      quizMaster:{label:'Mock Master',emoji:'🏆',desc:'Finalize um simulado com desempenho ≥80%.'}
+      firstCorrect:{label:'First Focus',emoji:'🌟',desc:'Get your very first question correct.'},
+      streak3:{label:'Hot Streak',emoji:'🔥',desc:'Answer three questions correctly in a row within one mock.'},
+      streakDay3:{label:'Routine Ninja',emoji:'📅',desc:'Study on three consecutive days.'},
+      questHero:{label:'Quest Hero',emoji:'🎮',desc:'Complete the Focus Quest streak.'},
+      quizMaster:{label:'Mock Master',emoji:'🏆',desc:'Finish a mock exam with a score of 80% or higher.'}
     };
 
     function xpRequired(level){
@@ -336,7 +336,7 @@
       let stored=null;
       if(HAS_STORAGE){
         try{ stored = JSON.parse(localStorage.getItem(STORAGE_KEY)); }
-        catch(err){ console.warn('Falha ao carregar gamificação', err); }
+        catch(err){ console.warn('Failed to load gamification state', err); }
       }
       const base={
         level:1,
@@ -372,7 +372,7 @@
       const ratio = gamify.xpToNext ? Math.min(1, gamify.xpIntoLevel / gamify.xpToNext) : 0;
       xpFill.style.width = `${Math.round(ratio*100)}%`;
       xpFill.parentElement?.setAttribute('aria-valuenow', Math.round(ratio*100));
-      xpLevel.textContent = `Nível ${gamify.level}`;
+      xpLevel.textContent = `Level ${gamify.level}`;
       xpNext.textContent = `${Math.round(gamify.xpIntoLevel)} / ${gamify.xpToNext} XP`;
       xpTotal.textContent = `${gamify.totalXp} XP`;
       xpStreak.textContent = `${gamify.streak} 🔥`;
@@ -407,7 +407,7 @@
       gamify.achievements[key] = true;
       saveGamify();
       renderBadges();
-      flashMessage(`🏅 Conquista desbloqueada: ${ACHIEVEMENTS[key].label}!`);
+      flashMessage(`🏅 Achievement unlocked: ${ACHIEVEMENTS[key].label}!`);
     }
 
     function renderBadges(){
@@ -419,7 +419,7 @@
         const badge=document.createElement('span');
         badge.className=`badge${earned?'':' locked'}`;
         badge.innerHTML=`<span class="emoji">${earned?meta.emoji:'🔒'}</span><span>${meta.label}</span>`;
-        badge.title = earned ? meta.desc : `${meta.desc} (bloqueada)`;
+        badge.title = earned ? meta.desc : `${meta.desc} (locked)`;
         badgeList.appendChild(badge);
       });
     }
@@ -441,7 +441,7 @@
       saveGamify();
       updateGamifyUI();
       if(leveled){
-        flashMessage(`🎉 Level up! Agora você é nível ${gamify.level}.`);
+        flashMessage(`🎉 Level up! You're now level ${gamify.level}.`);
       }
     }
 
@@ -483,7 +483,7 @@
       const width = Math.min(100, (current/target)*100);
       if(questFill) questFill.style.width = `${width}%`;
       if(questMessage){
-        questMessage.textContent = completed ? 'Quest concluída! Continue praticando para manter o combo.' : 'Acerte 5 questões para ganhar um bônus de XP. Erros reiniciam a sequência.';
+        questMessage.textContent = completed ? 'Quest complete! Keep practicing to extend your streak.' : 'Answer 5 questions correctly in a row to earn a bonus XP reward. Mistakes reset the chain.';
       }
     }
 
@@ -497,7 +497,7 @@
             gamify.quest.completed = true;
             awardXp(30);
             unlockAchievement('questHero');
-            flashMessage('🎮 Focus Quest completa! +30 XP');
+            flashMessage('🎮 Focus Quest complete! +30 XP');
           }
         } else {
           gamify.quest.current = 0;
@@ -543,12 +543,14 @@
 
     function openModal(key){
       const it = DATA[key];
-      if(!it){ console.warn('Sem DATA para', key); return; }
+      if(!it){ console.warn('Missing DATA entry for', key); return; }
       titleEl.textContent = it.name;
-      tagsEl.innerHTML = `<span class="tag">Acrônimo: ${key}</span>`;
-      descEl.innerHTML = `<b>Descrição:</b> ${it.desc}`;
-      purposeEl.innerHTML = `<b>Para que serve:</b> ${it.purpose}`;
-      exampleEl.innerHTML = `<b>Exemplo:</b> ${it.example}`;
+      const tags = [`<span class="tag">Acronym: ${key}</span>`];
+      if(it.category) tags.push(`<span class="tag">Category: ${it.category}</span>`);
+      tagsEl.innerHTML = tags.join('');
+      descEl.innerHTML = `<b>Overview:</b> ${it.desc}`;
+      purposeEl.innerHTML = `<b>When to use it:</b> ${it.purpose}`;
+      exampleEl.innerHTML = `<b>Example scenario:</b> ${it.example}`;
       lastFocus = document.activeElement;
       if(!overlay) return;
       overlay.classList.remove('hidden');
@@ -581,7 +583,7 @@
       }
     }
 
-    // Questions bank (amostra reduzida; gere ~30-40 seguindo o padrão)
+    // Question bank (short sample; generate ~30-40 following the pattern)
     const BANK = [
       {domain:"Core",type:"single",q:"Which service provides virtual machines for training or inference?",opts:["AWS Lambda","Amazon EC2","Amazon S3","Amazon CloudFront"],ans:[1],ex:"EC2 provides resizable compute; Lambda is serverless."},
       {domain:"Core",type:"single",q:"Which service is object storage for data lakes used in ML?",opts:["Amazon EFS","Amazon EBS","Amazon S3","Amazon Redshift"],ans:[2],ex:"S3 stores datasets, artifacts, logs."},
